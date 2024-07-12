@@ -8,14 +8,11 @@ Este código define una utilidad de validación de formularios para ReactJS usan
 
 #### `ValidationRule<T>`
 
-`` 
-export type ValidationRule<T> = {
+``export type ValidationRule<T> = {
     field: keyof T;
     message: string;
     validate: (value: any) => boolean;
-};
-
-``
+};``
 
 The page will reload if you make edits.\
 You will also see any lint errors in the console.
