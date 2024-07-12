@@ -1,12 +1,12 @@
-# Getting Started with Create React App
+# Documentación del Validador de Formularios para ReactJS con TypeScript
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Visión General
 
-## Available Scripts
+Este código define una utilidad de validación de formularios para ReactJS usando TypeScript. La utilidad proporciona una manera de agregar reglas de validación a los campos del formulario, validar todo el formulario y manejar cambios en los campos del formulario. El validador asegura que el formulario se mantenga válido según las reglas definidas y actualiza el estado del formulario y el estado de errores en consecuencia.
 
-In the project directory, you can run:
+### Clases y Tipos
 
-### `npm start`
+#### `ValidationRule<T>`
 
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
