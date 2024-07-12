@@ -1,4 +1,4 @@
-# Documentación del Validador de Formularios para ReactJS con TypeScript
+# Documentación - ValiValid
 
 ## Visión General
 
