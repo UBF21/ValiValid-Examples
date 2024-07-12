@@ -127,6 +127,8 @@ export class FormManager<T> {
 
 ### basic
 
+Dispara el validador cuando se quiere enviar la información al guardar.
+
 ```csharp
 type FormData = {
     name: string;
