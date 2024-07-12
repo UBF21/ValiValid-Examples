@@ -8,7 +8,7 @@ Este código define una utilidad de validación de formularios para ReactJS usan
 
 #### `ValidationRule<T>`
 
-```csharp
+```typescript
 export type ValidationRule<T> = {
     field: keyof T;
     message: string;
@@ -24,7 +24,7 @@ export type ValidationRule<T> = {
 
 Un tipo que representa los errores para cada campo del formulario.
 
-```csharp
+```typescript
 export type FormErrors<T> = {
     [key in keyof T]?: string | null;
 };
@@ -36,7 +36,7 @@ export type FormErrors<T> = {
 
 Un tipo que representa la función para actualizar el estado de un formulario.
 
-```csharp
+```typescript
 export type SetState<T> = (value: T | ((prevState: T) => T)) => void;
 ```
 
@@ -46,7 +46,7 @@ export type SetState<T> = (value: T | ((prevState: T) => T)) => void;
 
 Una clase que gestiona las reglas de validación y la validación del formulario.
 
-```csharp
+```typescript
 export class FormManager<T> {
  ......
 }
@@ -54,9 +54,11 @@ export class FormManager<T> {
 
 #### `Constructor`
 
-```csharp
+```typescript
 export class FormManager<T> {
      private _isFormValid: (isValid: boolean) => void;
+     private _rules: ValidationRule<T>[] = [];
+
 
     constructor(setFormValid: (isValid: boolean) => void) {
         this._isFormValid = setFormValid;
@@ -64,6 +66,7 @@ export class FormManager<T> {
 }
 ```
 - `setFormValid` Una función que toma un booleano indicando si el formulario es válido.
+-  `_rules`: Es una propiedad privada de la clase FormValidator que almacena un array de reglas de validación (`ValidationRule<T>[]`). Cada regla de validación define un campo del formulario, un mensaje de error asociado y una función de validación. Esta propiedad se utiliza internamente en los métodos `addRule`, `validate`, y `validateField` para aplicar las validaciones definidas a los datos del formulario.
 
 
 ## Métodos
@@ -72,7 +75,7 @@ export class FormManager<T> {
 
 Agrega una regla de validación para un campo del formulario.
 
-```csharp
+```typescript
 export class FormManager<T> {
     addRule(field: keyof T, message: string, validate: (value: any) => boolean): void;
 }
@@ -85,7 +88,7 @@ export class FormManager<T> {
 
 Valida todos los datos del formulario.
 
-```csharp
+```typescript
 export class FormManager<T> {
    validate(fields: T): FormErrors<T> {
     }
@@ -98,7 +101,7 @@ export class FormManager<T> {
 
 Valida un solo campo del formulario.
 
-```csharp
+```typescript
 export class FormManager<T> {
    validateField(field: keyof T, value: any): string | null {
     }
@@ -112,7 +115,7 @@ export class FormManager<T> {
 
 Maneja los cambios en los campos del formulario y actualiza el estado del formulario y el estado de errores.
 
-```csharp
+```typescript
 export class FormManager<T> {
    handleChange( name: keyof T, value: any, setForm: SetState<T>, setErrors: SetState<FormErrors<T>> ): void{
     }
@@ -129,7 +132,7 @@ export class FormManager<T> {
 
 Dispara el validador cuando se quiere enviar la información al guardar.
 
-```csharp
+```tsx
 type FormData = {
     name: string;
     email: string;
