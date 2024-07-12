@@ -123,7 +123,7 @@ export class FormManager<T> {
 -  `setForm` : Una función para actualizar el estado del formulario.
 -  `setErrors` : Una función para actualizar el estado de errores.
 
-##Example
+## Example básico
 
 ```csharp
 import React, { useState } from 'react';
