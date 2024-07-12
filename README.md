@@ -32,13 +32,20 @@ export type FormErrors<T> = {
 - Las claves son los nombres de los campos del formulario..
 - Los valores son mensajes de error o `null` si el campo es válido.
   
-### `npm run build`
+### `FormValidator<T>`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Una clase que gestiona las reglas de validación y la validación del formulario.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```csharp
+export class FormManager<T> {
+  private _isFormValid: (isValid: boolean) => void;
+
+  constructor(setFormValid: (isValid: boolean) => void)
+  {
+  }
+}
+
+```
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
