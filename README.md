@@ -8,7 +8,7 @@ Este código define una utilidad de validación de formularios para ReactJS usan
 
 #### `ValidationRule<T>`
 
-```
+```csharp
 export type ValidationRule<T> = {
     field: keyof T;
     message: string;
