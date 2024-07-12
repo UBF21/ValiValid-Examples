@@ -137,43 +137,36 @@ type FormData = {
 const MyForm: React.FC = () => {
     const [form, setForm] = useState<FormData>({ name: '', email: '', age: 0 });
     const [errors, setErrors] = useState<FormErrors<FormData>>({});
-
     const [isFormValid, setIsFormValid] = useState<boolean>(false);
-    
-    const formValidator = new FormManager<FormData>(isFormValid => {
+
+    const formValidator = new FormValidator<FormData>(isFormValid => {
         console.log(`El formulario es válido: ${isFormValid}`);
+        setIsFormValid(isFormValid);
     });
-    
+
     formValidator.addRule('name', 'El nombre es obligatorio', value => !!value);
     formValidator.addRule('email', 'El correo electrónico es inválido', value => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value));
     formValidator.addRule('age', 'La edad debe ser un número positivo', value => value > 0);
 
-  	
-  	useEffect(() => {
-    	const errors = formManager.validate(form);
-    	setFormErrors(errors);
-    }, [form]);
-  
-  	const onSubmit = (e: React.FormEvent): void => {
-      e.preventDefault();
-      const initial: FormData = { name: '', email: '', age: 0 }
+    const onSubmit = (e: React.FormEvent): void => {
+        e.preventDefault();
+        const initial: FormData = { name: '', email: '', age: 0 };
 
-      const errors = formManager.validate(form);
-      setFormErrors(errors);
+        const errors = formValidator.validate(form);
+        setErrors(errors);
 
-      if (isFormValid) {
-        console.log('Form submitted:', form);
-        setFormPerson(initial);
-      }
+        if (isFormValid) {
+            console.log('Form submitted:', form);
+            setForm(initial);
+        }
+    };
 
-  }
-  
     const handleOnChange = (name: keyof FormData, value: any) => {
         formValidator.handleChange(name, value, setForm, setErrors);
     };
 
     return (
-        <form onSubmit={onSubmit}> 
+        <form onSubmit={onSubmit}>
             <div>
                 <label>Nombre:</label>
                 <input
@@ -206,4 +199,6 @@ const MyForm: React.FC = () => {
     );
 };
 
-export default MyForm;```
+export default MyForm;
+
+```
