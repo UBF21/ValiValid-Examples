@@ -128,9 +128,6 @@ export class FormManager<T> {
 ### basic
 
 ```csharp
-import React, { useState } from 'react';
-
-// Definir el tipo de datos del formulario
 type FormData = {
     name: string;
     email: string;
@@ -141,25 +138,42 @@ const MyForm: React.FC = () => {
     const [form, setForm] = useState<FormData>({ name: '', email: '', age: 0 });
     const [errors, setErrors] = useState<FormErrors<FormData>>({});
 
-    // Definir los setters de estado
     const [isFormValid, setIsFormValid] = useState<boolean>(false);
     
-    // Crear una instancia del validador de formularios
     const formValidator = new FormManager<FormData>(isFormValid => {
         console.log(`El formulario es válido: ${isFormValid}`);
     });
     
-    // Agregar reglas de validación
     formValidator.addRule('name', 'El nombre es obligatorio', value => !!value);
     formValidator.addRule('email', 'El correo electrónico es inválido', value => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value));
     formValidator.addRule('age', 'La edad debe ser un número positivo', value => value > 0);
 
+  	
+  	useEffect(() => {
+    	const errors = formManager.validate(form);
+    	setFormErrors(errors);
+    }, [form]);
+  
+  	const onSubmit = (e: React.FormEvent): void => {
+      e.preventDefault();
+      const initial: FormData = { name: '', email: '', age: 0 }
+
+      const errors = formManager.validate(form);
+      setFormErrors(errors);
+
+      if (isFormValid) {
+        console.log('Form submitted:', form);
+        setFormPerson(initial);
+      }
+
+  }
+  
     const handleOnChange = (name: keyof FormData, value: any) => {
         formValidator.handleChange(name, value, setForm, setErrors);
     };
 
     return (
-        <form>
+        <form onSubmit={onSubmit}> 
             <div>
                 <label>Nombre:</label>
                 <input
