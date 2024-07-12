@@ -16,14 +16,22 @@ export type ValidationRule<T> = {
 };
 ```
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+-  `field` : El campo del formulario a validar.
+- `message` : El mensaje de error que se mostrará si la validación falla.
+- `validate` : Una función que toma el valor del campo y devuelve un booleano indicando si el valor del campo es válido.
 
 #### `FormErrors<T>`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Un tipo que representa los errores para cada campo del formulario.
 
+```csharp
+export type FormErrors<T> = {
+    [key in keyof T]?: string | null;
+};
+```
+- Las claves son los nombres de los campos del formulario..
+- Los valores son mensajes de error o `null` si el campo es válido.
+  
 ### `npm run build`
 
 Builds the app for production to the `build` folder.\
