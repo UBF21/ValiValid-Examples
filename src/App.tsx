@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import { ValidationType } from './fromValidation/Validators';
-import { FormManager } from './fromValidation/FormValidation';
+import { FormErrors } from './formValidation/FormTypes';
 import { Person } from './interfaces/Person';
-import { FormErrors } from './fromValidation/FormTypes';
+import { FormManager } from './formValidation/FormValidation';
+import { ValidationType } from './formValidation/Validators';
 
 function App() {
+
   const [formPerson, setFormPerson] = useState<Person>({ name: "", lastName: "", yearsOld: 0, sex: "", skills: "" });
   const [formErrors, setFormErrors] = useState<FormErrors<Person>>({});
   const [isFormValid, setIsFormValid] = useState<boolean>(false);
@@ -35,11 +36,11 @@ function App() {
       field: "yearsOld",
       validations: [
         {
-          type: ValidationType.Required,
+           type: ValidationType.Required,
           value: true
         }
       ],
-      isNumber: true
+      isNumber:true,
     })
     .addValidation({
       field: "sex",
@@ -86,7 +87,7 @@ function App() {
     <div className="container mt-4">
       <h2>Example</h2>
       <div className='col-12'>
-        <pre>{JSON.stringify(formPerson, null, 2)}</pre>
+        <pre>{JSON.stringify(formPerson,null,2)}</pre>
       </div>
       <form className="row g-3" onSubmit={onSubmit}>
         <div className="col-md-12">
@@ -101,7 +102,15 @@ function App() {
         </div>
         <div className="col-md-12">
           <label htmlFor="yearsOld" className="form-label">Years Old</label>
-          <input type="number" className="form-control" id="yearsOld" value={String(formPerson.yearsOld)} onChange={(e) => { handleChange("yearsOld", e.target.value) }} />
+          <input type="number" 
+                 step='0.01' 
+                 className="form-control" 
+                 id="yearsOld" 
+                 value={formPerson.yearsOld} 
+                 onChange={(e) => { handleChange("yearsOld", e.target.value) }} 
+                //  onFocus={(e) => {if(e.target.value === '0') e.target.value = '' } }
+                //  onBlur={(e) => {if(e.target.value === '') e.target.value = '0' } }
+                 />
           <span style={{ color: "red", fontWeight: "bold" }}>{formErrors.yearsOld}</span>
         </div>
         <div className="col-md-12">
