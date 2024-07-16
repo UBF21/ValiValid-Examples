@@ -106,7 +106,7 @@ function App() {
                  step='0.01' 
                  className="form-control" 
                  id="yearsOld" 
-                 value={formPerson.yearsOld} 
+                 value={formPerson.yearsOld || ""} 
                  onChange={(e) => { handleChange("yearsOld", e.target.value) }} 
                 //  onFocus={(e) => {if(e.target.value === '0') e.target.value = '' } }
                 //  onBlur={(e) => {if(e.target.value === '') e.target.value = '0' } }

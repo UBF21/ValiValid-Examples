@@ -35,7 +35,6 @@ export type FieldValidationConfig<T> = {
     field: keyof T;
     validations: ValidationConfig[];
     isNumber?:boolean;
-    isDecimal?:boolean;
 };  
 
 

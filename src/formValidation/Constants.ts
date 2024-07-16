@@ -1,3 +1,4 @@
+import { FieldValidationConfig, ValidationConfig } from "./FormTypes";
 
 export const DEFAULT_REQUIRED_MESSAGE = "Required field.";
 export const DEFAULT_DIGITS_ONLY_MESSAGE = "The field can only contain digits.";
@@ -22,4 +23,3 @@ export const expressionDigitsOnlyValidator : (value: string) => boolean = (value
 
 
 // INITIALIZERS
-

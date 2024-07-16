@@ -25,12 +25,11 @@ export class FormManager<T> {
     }
 
     addValidation(fieldValidationConfig: FieldValidationConfig<T>): this {
-
         //
         this._AllfieldValidationConfig.push(fieldValidationConfig);
         //
 
-        const { field, validations } = fieldValidationConfig;
+        const { field, validations,isNumber = false } = fieldValidationConfig;
 
         validations.forEach((validationConfig: ValidationConfig) => {
             switch (validationConfig.type) {
