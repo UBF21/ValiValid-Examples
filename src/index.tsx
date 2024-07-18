@@ -3,13 +3,23 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { FluentProvider, webLightTheme } from '@fluentui/react-components';
+import { RouterProvider } from 'react-router-dom';
+import { router } from './routers/ContentRouters';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
+
+const routers = router;
+
 root.render(
   <React.StrictMode>
-    <App />
+    <FluentProvider theme={webLightTheme}>
+      <RouterProvider
+        router={routers}
+      />
+    </FluentProvider>
   </React.StrictMode>
 );
 

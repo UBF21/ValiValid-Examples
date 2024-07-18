@@ -1,10 +1,10 @@
 import { log } from "console";
-import { DEFAULT_DIGITS_ONLY_MESSAGE, defaultMaxLengthMessage, defaultMinLengthMessage, defaultNumberRangeMessage, DEFAULT_REQUIRED_MESSAGE, expressionDigitsOnlyValidator, expressionMaxLengthValidator, expressionMinLengthValidator, expressionNumberRangeValidator, expressionRequiredValidator, EXPRESSION_REGULAR_ONLY_NUMBERS, EXPRESSION_REGULAR_DECIMALS } from "./Constants";
+import { DEFAULT_ERROR_DIGITS_ONLY_MESSAGE, defaultMaxLengthMessage, defaultMinLengthMessage, defaultNumberRangeMessage, DEFAULT_ERROR_REQUIRED_MESSAGE, expressionDigitsOnlyValidator, expressionMaxLengthValidator, expressionMinLengthValidator, expressionNumberRangeValidator, expressionRequiredValidator, EXPRESSION_REGULAR_ONLY_NUMBERS, EXPRESSION_REGULAR_DECIMALS, DEFAULT_ERROR_EMAIL_MESSAGE, expressionEmailValidator, DEFAULT_ERROR_URL_MESSAGE, expressionUrlValidator } from "./Constants";
 import { FieldValidationConfig, FormErrors, SetState, ValidationConfig, ValidationRule } from "./FormTypes";
 import { ValidationType } from "./Validators";
 
 export class FormManager<T> {
-    private _rules: Map<keyof T, ValidationRule<T>[]> = new Map();  
+    private _rules: Map<keyof T, ValidationRule<T>[]> = new Map();
     //private _rules: ValidationRule<T>[] = [];
 
     //
@@ -29,14 +29,14 @@ export class FormManager<T> {
         this._AllfieldValidationConfig.push(fieldValidationConfig);
         //
 
-        const { field, validations,isNumber = false } = fieldValidationConfig;
+        const { field, validations, isNumber = false } = fieldValidationConfig;
 
         validations.forEach((validationConfig: ValidationConfig) => {
             switch (validationConfig.type) {
                 case ValidationType.Required:
                     this.addRule(
                         field,
-                        validationConfig.message || DEFAULT_REQUIRED_MESSAGE,
+                        validationConfig.message || DEFAULT_ERROR_REQUIRED_MESSAGE,
                         (value: string) => expressionRequiredValidator(value)
                     );
                     break;
@@ -57,7 +57,7 @@ export class FormManager<T> {
                 case ValidationType.DigitsOnly:
                     this.addRule(
                         field,
-                        validationConfig.message || DEFAULT_DIGITS_ONLY_MESSAGE,
+                        validationConfig.message || DEFAULT_ERROR_DIGITS_ONLY_MESSAGE,
                         (value: string) => expressionDigitsOnlyValidator(value)
                     )
                     break;
@@ -68,6 +68,20 @@ export class FormManager<T> {
                         validationConfig.message || defaultNumberRangeMessage(min, max),
                         (value: number) => expressionNumberRangeValidator(value, min, max)
                     );
+                    break;
+                case ValidationType.Email:
+                    this.addRule(
+                        field,
+                        validationConfig.message || DEFAULT_ERROR_EMAIL_MESSAGE,
+                        (value: string) => expressionEmailValidator(value)
+                    );
+                    break;
+                case ValidationType.Url:
+                    this.addRule(
+                        field,
+                        validationConfig.message || DEFAULT_ERROR_URL_MESSAGE,
+                        (value: string) => expressionUrlValidator(value)
+                    )
                     break;
                 default:
                     throw new Error(`Unsupported validation type.`);
@@ -106,28 +120,6 @@ export class FormManager<T> {
         return null;
     }
 
-    // private validateValue(name: keyof T, value: any): any {
-    //     let response: any;
-    //     const fieldValidation: FieldValidationConfig<T> = this._AllfieldValidationConfig.find(item => item.field === name)!;
-    //     if ('isDecimal' in fieldValidation && fieldValidation.isNumber && fieldValidation.isDecimal) {
-
-    //         let cleanedValue = value.replace(/[^0-9.]/g, '');
-    //         const parts = cleanedValue.split('.');
-
-    //         if (parts.length > 2) cleanedValue = parts.shift() + '.' + parts.join('');
-            
-    //         response = cleanedValue; // Mantener como cadena
-    //     }
-    //     else if ('isNumber' in fieldValidation && fieldValidation.isNumber) {
-    //         response = +(value.replace(EXPRESSION_REGULAR_ONLY_NUMBERS, ''));
-    //         console.log("aqui");
-    //     } else {
-    //         response = value;
-    //     }
-    //     return response;
-    // }
-
-
     handleChange(
         name: keyof T,
         value: any,
@@ -136,11 +128,11 @@ export class FormManager<T> {
     ): void {
 
         const fieldValidation: FieldValidationConfig<T> = this._AllfieldValidationConfig.find(item => item.field === name)!;
-        
-        if('isNumber' in fieldValidation && fieldValidation.isNumber && value === '0'){
+
+        if ('isNumber' in fieldValidation && fieldValidation.isNumber && value === '0') {
             value = '';
-        }else if('isNumber' in fieldValidation && fieldValidation.isNumber) value = Number(value);
-        
+        } else if ('isNumber' in fieldValidation && fieldValidation.isNumber) value = Number(value);
+
 
         // console.log(this._fieldValidationConfig);
         //

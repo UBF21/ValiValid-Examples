@@ -1,4 +1,4 @@
-import { ValidationConfigDigitsOnly, ValidationConfigMaxLength, ValidationConfigMinLength, ValidationConfigNumberRange, ValidationConfigRequired } from "./Validators";
+import { ValidationConfigDigitsOnly, ValidationConfigEmail, ValidationConfigMaxLength, ValidationConfigMinLength, ValidationConfigNumberRange, ValidationConfigRequired, ValidationConfigUrl } from "./Validators";
 
 /**
  * @type 
@@ -13,7 +13,7 @@ export type SetState<T> = (value: T | ((prevState: T) => T)) => void;
 
 /**
  * 
- * @typedef {ValidationConfigRequired | ValidationConfigMinLength | ValidationConfigMaxLength | ValidationConfigDigitsOnly | ValidationConfigNumberRange} ValidationConfig
+ * @typedef {ValidationConfigRequired | ValidationConfigMinLength | ValidationConfigMaxLength | ValidationConfigDigitsOnly | ValidationConfigNumberRange | ValidationConfigEmail} ValidationConfig
  * @description Configuración de validación que puede ser de diferentes tipos.
  */
 export type ValidationConfig =
@@ -21,7 +21,9 @@ export type ValidationConfig =
     | ValidationConfigMinLength
     | ValidationConfigMaxLength
     | ValidationConfigDigitsOnly
-    | ValidationConfigNumberRange;
+    | ValidationConfigNumberRange
+    | ValidationConfigEmail
+    | ValidationConfigUrl;
 
 
 /**

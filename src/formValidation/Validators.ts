@@ -19,7 +19,13 @@ export enum ValidationType {
     DigitsOnly = 'DigitsOnly',
 
     /** Rango de números permitido. */
-    NumberRange = 'NumberRange'
+    NumberRange = 'NumberRange',
+
+    /** Formato de email. */
+    Email = 'Email',
+
+    /** URL */
+    Url = 'Url'
 }
 
 
@@ -84,5 +90,31 @@ export type ValidationConfigDigitsOnly = {
 export type ValidationConfigNumberRange = {
     type: ValidationType.NumberRange;
     value: [number, number];
+    message?: string;
+};
+
+
+/**
+ * @type {ValidationConfigEmail}
+ * @property {ValidationType.Email} type
+ * @property {boolean} value
+ * @property {string} message
+*/
+export type ValidationConfigEmail = {
+    type: ValidationType.Email;
+    value: boolean;
+    message?: string;
+};
+
+
+/**
+ * @type {ValidationConfigUrl}
+ * @property {ValidationType.Url} type
+ * @property {boolean} value
+ * @property {string} message
+*/
+export type ValidationConfigUrl = {
+    type: ValidationType.Url;
+    value: boolean;
     message?: string;
 };
