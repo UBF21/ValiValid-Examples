@@ -26,6 +26,7 @@ export enum ValidationType {
 
     /** URL */
     Url = 'Url'
+
 }
 
 
