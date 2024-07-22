@@ -4,6 +4,7 @@ import { Person } from '../../../interfaces/Person';
 import { ValidationType } from '../../../formValidation/Validators';
 import { FileSize, FormErrors, TypeFile } from '../../../formValidation/FormTypes';
 import { FormManager } from '../../../formValidation/FormValidation';
+import { ComboBoxComponent } from './components/ComboBox';
 
 const ExampleFluentUI = () => {
 
@@ -102,7 +103,7 @@ const ExampleFluentUI = () => {
 
         const errors = formManager.validate(formPerson);
         setFormErrors(errors);
-    
+
         if (isFormValid) {
             console.log('Form submitted:', formPerson);
             setFormPerson(initial);
@@ -235,6 +236,15 @@ const ExampleFluentUI = () => {
                                     }
                                 </Field>
 
+                            </div>
+                            <div className='col-md-12'>
+                                <Field
+                                    label="Sex"
+                                    validationState={!formErrors ? "none" : formErrors.cv ? "error" : "success"}
+                                    validationMessage={!formErrors ? "none" : formErrors.cv ? formErrors.cv : "Correcto."}
+                                >
+                                <ComboBoxComponent/>
+                                </Field>
                             </div>
                             <div className='col-md-12'>
                                 <button type="submit" className="btn btn-primary">Save</button>
