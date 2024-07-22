@@ -6,75 +6,51 @@ import { FormErrors } from '../../../formValidation/FormTypes';
 
 const ExampleBootstrap = () => {
 
-  const [formPerson, setFormPerson] = useState<Person>({ name: "", lastName: "", yearsOld: 0, sex: "", skills: "", email: "", urlLinkedin: "" });
+  const [formPerson, setFormPerson] = useState<Person>({ name: "", lastName: "", yearsOld: 0, sex: "", skills: "", email: "", urlLinkedin: "",foto: new Blob,cv:new Blob });
   const [formErrors, setFormErrors] = useState<FormErrors<Person>>({});
   const [isFormValid, setIsFormValid] = useState<boolean>(false);
 
-  const formManager = new FormManager<Person>(setIsFormValid);
-  formManager
-    .addValidation({
+  const formManager = new FormManager<Person>(setIsFormValid, [
+    {
       field: "name",
       validations: [
-        {
-          type: ValidationType.Required,
-          value: true
-        }
+        { type: ValidationType.Required,value: true }
       ]
-    })
-    .addValidation({
+    },
+    {
       field: "lastName",
       validations: [
-        {
-          type: ValidationType.Required,
-          value: true
-        }
+        { type: ValidationType.Required,value: true }
       ]
-    })
-    .addValidation({
+    },
+    {
       field: "yearsOld",
       validations: [
-        {
-          type: ValidationType.Required,
-          value: true
-        }
+        { type: ValidationType.Required, value: true }
       ],
       isNumber: true,
-    })
-    .addValidation({
+    },
+    {
       field: "sex",
       validations: [
-        {
-          type: ValidationType.Required,
-          value: true
-        }
+        { type: ValidationType.Required, value: true }
       ]
-    })
-    .addValidation({
+    },
+    {
       field: 'email',
       validations: [
-        {
-          type: ValidationType.Required,
-          value: true
-        },
-        {
-          type: ValidationType.Email,
-          value: true
-        }
+        { type: ValidationType.Required,value: true },
+        { type: ValidationType.Email,value: true }
       ]
-    })
-    .addValidation({
+    },
+    {
       field: 'urlLinkedin',
       validations: [
-        {
-          type: ValidationType.Required,
-          value: true
-        },
-        {
-          type: ValidationType.Url,
-          value: true
-        }
+        { type: ValidationType.Required,value: true },
+        { type: ValidationType.Url,value: true }
       ]
-    });
+    }
+  ]);
 
   useEffect(() => {
     const errors = formManager.validate(formPerson);
@@ -87,7 +63,7 @@ const ExampleBootstrap = () => {
 
   const onSubmit = (e: React.FormEvent): void => {
     e.preventDefault();
-    const initial: Person = { name: "", lastName: "", yearsOld: 0, sex: "", skills: "", email: "", urlLinkedin: "" };
+    const initial: Person = { name: "", lastName: "", yearsOld: 0, sex: "", skills: "", email: "", urlLinkedin: "",foto:new Blob(),cv:new Blob() };
 
     const errors = formManager.validate(formPerson);
     setFormErrors(errors);
@@ -103,7 +79,7 @@ const ExampleBootstrap = () => {
     <div className='container mt-4'>
       <div className='row'>
         <div className='col-md-4'>
-          <pre style={{ fontWeight: 'bold',width:'100%',height:'70vh' }}>{JSON.stringify(formPerson, null, 2)}</pre>
+          <pre style={{ fontWeight: 'bold', width: '100%', height: '70vh' }}>{JSON.stringify(formPerson, null, 2)}</pre>
         </div>
         <div className='col-md-8'>
           <form className="row g-3" onSubmit={onSubmit}>

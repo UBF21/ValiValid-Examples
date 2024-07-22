@@ -1,3 +1,4 @@
+import { TypeFile } from "./FormTypes";
 
 /**
  * @name ValidationType
@@ -25,8 +26,13 @@ export enum ValidationType {
     Email = 'Email',
 
     /** URL */
-    Url = 'Url'
+    Url = 'Url',
 
+    /** Extensión de archivo */
+    FileType = "FileType",
+
+     /** tamaño de archivo */
+    FileSize = 'FileSize'
 }
 
 
@@ -117,5 +123,30 @@ export type ValidationConfigEmail = {
 export type ValidationConfigUrl = {
     type: ValidationType.Url;
     value: boolean;
+    message?: string;
+};
+
+
+/**
+ * @type {ValidationConfigFileType}
+ * @property {ValidationType.FileType} type
+ * @property {string[]} value
+ * @property {string} message
+*/
+export type ValidationConfigFileType = {
+    type: ValidationType.FileType;
+    value: TypeFile[]; // Lista de tipos MIME permitidos
+    message?: string;
+};
+
+/**
+ * @type {ValidationConfigFileSize}
+ * @property {ValidationType.FileSize} type
+ * @property {number} value
+ * @property {string} message
+*/
+export type ValidationConfigFileSize = {
+    type: ValidationType.FileSize;
+    value: number; // Tamaño máximo permitido en bytes
     message?: string;
 };

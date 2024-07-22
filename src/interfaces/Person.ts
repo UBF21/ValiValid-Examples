@@ -7,5 +7,7 @@ export interface Person{
     sex: "F" | "M" | "",
     email:string;
     urlLinkedin:string;
-    skills: "JavaScript" | "TypeScript" | "ReactJS" | "Python" | ""
+    skills: "JavaScript" | "TypeScript" | "ReactJS" | "Python" | "",
+    foto:Blob,
+    cv:Blob
 }

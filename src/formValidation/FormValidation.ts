@@ -1,23 +1,21 @@
 import { log } from "console";
-import { DEFAULT_ERROR_DIGITS_ONLY_MESSAGE, defaultMaxLengthMessage, defaultMinLengthMessage, defaultNumberRangeMessage, DEFAULT_ERROR_REQUIRED_MESSAGE, expressionDigitsOnlyValidator, expressionMaxLengthValidator, expressionMinLengthValidator, expressionNumberRangeValidator, expressionRequiredValidator, EXPRESSION_REGULAR_ONLY_NUMBERS, EXPRESSION_REGULAR_DECIMALS, DEFAULT_ERROR_EMAIL_MESSAGE, expressionEmailValidator, DEFAULT_ERROR_URL_MESSAGE, expressionUrlValidator } from "./Constants";
-import { FieldValidationConfig, FormErrors, SetState, ValidationConfig, ValidationRule } from "./FormTypes";
+import { DEFAULT_ERROR_DIGITS_ONLY_MESSAGE, defaultMaxLengthMessage, defaultMinLengthMessage, defaultNumberRangeMessage, DEFAULT_ERROR_REQUIRED_MESSAGE, expressionDigitsOnlyValidator, expressionMaxLengthValidator, expressionMinLengthValidator, expressionNumberRangeValidator, expressionRequiredValidator, EXPRESSION_REGULAR_ONLY_NUMBERS, EXPRESSION_REGULAR_DECIMALS, DEFAULT_ERROR_EMAIL_MESSAGE, expressionEmailValidator, DEFAULT_ERROR_URL_MESSAGE, expressionUrlValidator, DEFAULT_FILE_SIZE_MESSAGE, expressionFileSizeValidator, DEFAULT_FILE_TYPE_MESSAGE, expressionFileTypeValidator } from "./Constants";
+import { BuilderValidationConfig, FieldValidationConfig, FormErrors, SetState, ValidationConfig, ValidationRule } from "./FormTypes";
 import { ValidationType } from "./Validators";
 
 export class FormManager<T> {
     private _rules: Map<keyof T, ValidationRule<T>[]> = new Map();
-    //private _rules: ValidationRule<T>[] = [];
 
-    //
     private _AllfieldValidationConfig: FieldValidationConfig<T>[] = [];
-    //
+
     private _isFormValid: (isValid: boolean) => void;
 
-    constructor(setFormValid: (isValid: boolean) => void) {
+    constructor(setFormValid: (isValid: boolean) => void, builderValidations: BuilderValidationConfig<T> = []) {
         this._isFormValid = setFormValid;
+        builderValidations.map((fieldValidation: FieldValidationConfig<T>) => this.addValidation(fieldValidation));
     }
 
     addRule(field: keyof T, message: string, validate: (value: any) => boolean) {
-        //this._rules.push({ field, message, validate });
         if (!this._rules.has(field)) {
             this._rules.set(field, []);
         }
@@ -25,11 +23,10 @@ export class FormManager<T> {
     }
 
     addValidation(fieldValidationConfig: FieldValidationConfig<T>): this {
-        //
-        this._AllfieldValidationConfig.push(fieldValidationConfig);
-        //
 
-        const { field, validations, isNumber = false } = fieldValidationConfig;
+        this._AllfieldValidationConfig.push(fieldValidationConfig);
+
+        const { field, validations, isNumber = false, isDecimal = false } = fieldValidationConfig;
 
         validations.forEach((validationConfig: ValidationConfig) => {
             switch (validationConfig.type) {
@@ -83,6 +80,20 @@ export class FormManager<T> {
                         (value: string) => expressionUrlValidator(value)
                     )
                     break;
+                case ValidationType.FileSize:
+                    this.addRule(
+                        field,
+                        validationConfig.message || DEFAULT_FILE_SIZE_MESSAGE,
+                        (file: File) => expressionFileSizeValidator(file, validationConfig.value)
+                    )
+                    break;
+                case ValidationType.FileType:
+                    this.addRule(
+                        field,
+                        validationConfig.message || DEFAULT_FILE_TYPE_MESSAGE,
+                        (file:File) => expressionFileTypeValidator(file,validationConfig.value)
+                    )
+                    break;
                 default:
                     throw new Error(`Unsupported validation type.`);
             }
@@ -128,24 +139,17 @@ export class FormManager<T> {
     ): void {
 
         const fieldValidation: FieldValidationConfig<T> = this._AllfieldValidationConfig.find(item => item.field === name)!;
-
-        if ('isNumber' in fieldValidation && fieldValidation.isNumber && value === '0') {
+        const { field, validations, isNumber, isDecimal } = fieldValidation;
+        
+        if ('isNumber' in fieldValidation && isNumber && value === '0') {
             value = '';
-        } else if ('isNumber' in fieldValidation && fieldValidation.isNumber) value = Number(value);
-
-
-        // console.log(this._fieldValidationConfig);
-        //
-        // value = this.validateValue(name, value);
-
-        // if (fieldValidation.isNumber && fieldValidation.isDecimal) {
-        //     console.log(Number(value));
-        //     value = Number(value);
-        // }else if(fieldValidation.isNumber){
-        //     value = +(value);
-        // }
-
-        //
+        }
+        else if ('isNumber' in fieldValidation && isNumber && isDecimal) {
+            value = Number(value);
+        }
+        else if ('isNumber' in fieldValidation && isNumber) {
+            value = Number(value.toString().replace(EXPRESSION_REGULAR_ONLY_NUMBERS, ''));
+        }
 
         setForm((prevForm) => ({ ...prevForm, [name]: value }));
         const fieldError = this.validateField(name, value);
