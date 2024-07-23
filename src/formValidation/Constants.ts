@@ -2,6 +2,8 @@ import { isEnumMember } from "typescript";
 import { FieldValidationConfig, FileSize, TypeFile, ValidationConfig } from "./FormTypes";
 
 //Message Error
+
+export const DEFAULT_ERROR_PATTERN_MESSAGE = "Does not comply with the patternRequired field.";
 export const DEFAULT_ERROR_REQUIRED_MESSAGE = "Required field.";
 export const DEFAULT_ERROR_DIGITS_ONLY_MESSAGE = "The field can only contain digits.";
 export const DEFAULT_ERROR_EMAIL_MESSAGE = "Does not have email format.";

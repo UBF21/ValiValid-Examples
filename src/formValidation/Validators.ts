@@ -12,10 +12,10 @@ export enum ValidationType {
 
     /** Longitud mínima permitida. */
     MinLength = 'MinLength',
-    
+
     /** Longitud máxima permitida. */
     MaxLength = 'MaxLength',
-    
+
     /** Solo dígitos permitidos. */
     DigitsOnly = 'DigitsOnly',
 
@@ -31,11 +31,14 @@ export enum ValidationType {
     /** Extensión de archivo */
     FileType = "FileType",
 
-     /** tamaño de archivo */
+    /** tamaño de archivo */
     FileSize = 'FileSize',
 
     /** Dimensiones de archivo*/
-    FileDimensions = 'FileDimensions'
+    FileDimensions = 'FileDimensions',
+
+    /** Patrón Personalizado */
+    Pattern = "Pattern"
 }
 
 
@@ -157,11 +160,23 @@ export type ValidationConfigFileSize = {
 /**
  * @type {ValidationConfigFileDimensions}
  * @property {ValidationType.FileDimensions} type
- * @property {number} value
+ * @property { width:number, height:number } value
  * @property {string} message
 */
 export type ValidationConfigFileDimensions = {
     type: ValidationType.FileDimensions;
     value: { width: number; height: number }; // Dimensiones permitidas
+    message?: string;
+};
+
+/**
+ * @type {ValidationConfigPattern}
+ * @property {ValidationType.Pattern} type
+ * @property { ( value:any ) => boolean } value
+ * @property {string} message
+*/
+export type ValidationConfigPattern = {
+    type: ValidationType.Pattern;
+    value: (values: any) => boolean; // validación personalizada
     message?: string;
 };

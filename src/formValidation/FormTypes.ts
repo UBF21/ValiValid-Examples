@@ -1,4 +1,4 @@
-import { ValidationConfigDigitsOnly, ValidationConfigEmail, ValidationConfigFileDimensions, ValidationConfigFileSize, ValidationConfigFileType, ValidationConfigMaxLength, ValidationConfigMinLength, ValidationConfigNumberRange, ValidationConfigRequired, ValidationConfigUrl } from "./Validators";
+import { ValidationConfigDigitsOnly, ValidationConfigEmail, ValidationConfigFileDimensions, ValidationConfigFileSize, ValidationConfigFileType, ValidationConfigMaxLength, ValidationConfigMinLength, ValidationConfigNumberRange, ValidationConfigPattern, ValidationConfigRequired, ValidationConfigUrl } from "./Validators";
 
 /**
  * @type 
@@ -13,7 +13,7 @@ export type SetState<T> = (value: T | ((prevState: T) => T)) => void;
 
 /**
  * 
- * @typedef {ValidationConfigRequired | ValidationConfigMinLength | ValidationConfigMaxLength | ValidationConfigDigitsOnly | ValidationConfigNumberRange | ValidationConfigEmail     | ValidationConfigUrl | ValidationConfigFileSize | ValidationConfigFileType | ValidationConfigFileDimensions} ValidationConfig
+ * @typedef {ValidationConfigRequired | ValidationConfigMinLength | ValidationConfigMaxLength | ValidationConfigDigitsOnly | ValidationConfigNumberRange | ValidationConfigEmail     | ValidationConfigUrl | ValidationConfigFileSize | ValidationConfigFileType | ValidationConfigFileDimensions | ValidationConfigPattern} ValidationConfig
  * @description Configuración de validación que puede ser de diferentes tipos.
  */
 export type ValidationConfig =
@@ -26,7 +26,8 @@ export type ValidationConfig =
     | ValidationConfigUrl
     | ValidationConfigFileSize
     | ValidationConfigFileType
-    | ValidationConfigFileDimensions;
+    | ValidationConfigFileDimensions
+    | ValidationConfigPattern;
 
 /**
  * @template T

@@ -58,7 +58,13 @@ const ExampleFluentUI = () => {
             field: 'urlLinkedin',
             validations: [
                 { type: ValidationType.Required, value: true },
-                { type: ValidationType.Url, value: true }
+                { type: ValidationType.Url, value: true },
+                {
+                    type: ValidationType.Pattern, message: 'Debe ser mayor a 14 caracteres', value: (value) => value.length >= 14
+                },
+                {
+                    type: ValidationType.Pattern, message: 'Debe tener -', value: (value) => /-/.test(value)
+                }
             ]
         },
         {
