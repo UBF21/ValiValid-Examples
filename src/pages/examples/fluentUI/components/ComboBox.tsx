@@ -29,10 +29,7 @@ const ComboBoxComponent = () => {
 
     const onChange: ComboboxProps["onChange"] = (event) => {
         const value = event.target.value.trim();
-        const matches = options.filter(
-            (option) => option.text.toLowerCase().indexOf(value.toLowerCase()) === 0
-        );
-        console.log("Matches:", matches);
+        const matches = options.filter( (option) => option.text.toLowerCase().indexOf(value.toLowerCase().trim()) === 0 );
         setMatchingOptions(matches);
         if (value.length && matches.length < 1) {
             setCustomSearch(matches[0]);

@@ -5,16 +5,19 @@ import { ValidationType } from '../../../formValidation/Validators';
 import { FileSize, FormErrors, TypeFile } from '../../../formValidation/FormTypes';
 import { FormManager } from '../../../formValidation/FormValidation';
 import { ComboBoxComponent } from './components/ComboBox';
+import { blob } from 'stream/consumers';
 
 const ExampleFluentUI = () => {
 
-    const [formPerson, setFormPerson] = useState<Person>({ name: "", lastName: "", yearsOld: 0, sex: "", skills: "", email: "", urlLinkedin: "", foto: new Blob(), cv: new Blob() });
+    const [formPerson, setFormPerson] = useState<Person>({ name: "", lastName: "", yearsOld: 0, sex: "", skills: "", email: "", urlLinkedin: "", foto: new Blob(), cv: new Blob(), profile: new Blob() });
     const [formErrors, setFormErrors] = useState<FormErrors<Person>>({});
     const [isFormValid, setIsFormValid] = useState<boolean>(false);
 
     const [fileImage, setFileImage] = useState<string>("");
+    const [fileImageDimensions, setFileImageDimensions] = useState<string>("");
     const [file, setFile] = useState<string>("");
     const fileImageInputHidden = useRef<HTMLInputElement>(null);
+    const fileImageDimensionInputHidden = useRef<HTMLInputElement>(null);
     const fileInputHidden = useRef<HTMLInputElement>(null);
 
 
@@ -73,6 +76,13 @@ const ExampleFluentUI = () => {
                 { type: ValidationType.FileSize, value: FileSize['3MB'] },
                 { type: ValidationType.FileType, value: [TypeFile.PDF] }
             ]
+        },
+        {
+            field: "profile",
+            validations: [
+                { type: ValidationType.Required, value: true },
+                { type: ValidationType.FileDimensions, value: { width: 300, height: 300 } }
+            ]
         }
     ]);
 
@@ -84,6 +94,12 @@ const ExampleFluentUI = () => {
     const handleClickImage = () => {
         if (fileImageInputHidden.current !== null && fileImageInputHidden.current !== undefined) {
             fileImageInputHidden.current.click();
+        }
+    };
+
+    const handleClickImageDimensions = () => {
+        if (fileImageDimensionInputHidden.current !== null && fileImageDimensionInputHidden.current !== undefined) {
+            fileImageDimensionInputHidden.current.click();
         }
     };
 
@@ -99,7 +115,7 @@ const ExampleFluentUI = () => {
 
     const onSubmit = (e: React.FormEvent): void => {
         e.preventDefault();
-        const initial: Person = { name: "", lastName: "", yearsOld: 0, sex: "", skills: "", email: "", urlLinkedin: "", foto: new Blob(), cv: new Blob() };
+        const initial: Person = { name: "", lastName: "", yearsOld: 0, sex: "", skills: "", email: "", urlLinkedin: "", foto: new Blob(), cv: new Blob(), profile: new Blob() };
 
         const errors = formManager.validate(formPerson);
         setFormErrors(errors);
@@ -108,6 +124,7 @@ const ExampleFluentUI = () => {
             console.log('Form submitted:', formPerson);
             setFormPerson(initial);
             setFileImage("");
+            setFileImageDimensions("");
             setFile("");
         }
 
@@ -190,6 +207,15 @@ const ExampleFluentUI = () => {
                                     />
                                 </Field>
                             </div>
+                            <div className='col-md-12'>
+                                <Field
+                                    label="Sex"
+                                    validationState={!formErrors ? "none" : formErrors.cv ? "error" : "success"}
+                                    validationMessage={!formErrors ? "none" : formErrors.cv ? formErrors.cv : "Correcto."}
+                                >
+                                    <ComboBoxComponent />
+                                </Field>
+                            </div>
                             <div className='col-md-6 d-flex justify-content-center align-items-center'>
                                 <Field
                                     label=""
@@ -204,7 +230,7 @@ const ExampleFluentUI = () => {
                                         }
                                     }} />
                                     <Image src={fileImage || 'https://mexicana.cultura.gob.mx/work/models/repositorio/img/empty.jpg'}
-                                        style={{ width: '90px', height: '90px', marginBottom: '8px' }}
+                                        style={{ width: '150px', height: '150px', marginBottom: '8px' }}
                                         fit='cover'
                                         shadow={true}
                                         onClick={handleClickImage}
@@ -237,14 +263,27 @@ const ExampleFluentUI = () => {
                                 </Field>
 
                             </div>
-                            <div className='col-md-12'>
+                            <div className='col-md-12 d-flex justify-content-center align-items-center'>
                                 <Field
-                                    label="Sex"
-                                    validationState={!formErrors ? "none" : formErrors.cv ? "error" : "success"}
-                                    validationMessage={!formErrors ? "none" : formErrors.cv ? formErrors.cv : "Correcto."}
+                                    label=""
+                                    validationState={!formErrors ? "none" : formErrors.profile ? "error" : "success"}
+                                    validationMessage={!formErrors ? "none" : formErrors.profile ? formErrors.profile : "Correcto."}
                                 >
-                                <ComboBoxComponent/>
+                                    <input type="file" hidden ref={fileImageDimensionInputHidden} onChange={(e) => {
+                                        if (e.target.files && e.target.files.length > 0) {
+                                            const file = e.target.files[0];
+                                            handleChange("profile", file);
+                                            setFileImageDimensions(URL.createObjectURL(file));
+                                        }
+                                    }} />
+                                    <Image src={fileImageDimensions || 'https://mexicana.cultura.gob.mx/work/models/repositorio/img/empty.jpg'}
+                                        style={{ width: '150px', height: '150px', marginBottom: '8px' }}
+                                        fit='cover'
+                                        shadow={true}
+                                        onClick={handleClickImageDimensions}
+                                        shape='circular' />
                                 </Field>
+
                             </div>
                             <div className='col-md-12'>
                                 <button type="submit" className="btn btn-primary">Save</button>

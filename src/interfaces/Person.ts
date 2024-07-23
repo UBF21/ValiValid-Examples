@@ -9,5 +9,6 @@ export interface Person{
     urlLinkedin:string;
     skills: "JavaScript" | "TypeScript" | "ReactJS" | "Python" | "",
     foto:Blob,
-    cv:Blob
+    cv:Blob,
+    profile:Blob
 }

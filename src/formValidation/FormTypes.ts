@@ -1,4 +1,4 @@
-import { ValidationConfigDigitsOnly, ValidationConfigEmail, ValidationConfigFileSize, ValidationConfigFileType, ValidationConfigMaxLength, ValidationConfigMinLength, ValidationConfigNumberRange, ValidationConfigRequired, ValidationConfigUrl } from "./Validators";
+import { ValidationConfigDigitsOnly, ValidationConfigEmail, ValidationConfigFileDimensions, ValidationConfigFileSize, ValidationConfigFileType, ValidationConfigMaxLength, ValidationConfigMinLength, ValidationConfigNumberRange, ValidationConfigRequired, ValidationConfigUrl } from "./Validators";
 
 /**
  * @type 
@@ -13,7 +13,7 @@ export type SetState<T> = (value: T | ((prevState: T) => T)) => void;
 
 /**
  * 
- * @typedef {ValidationConfigRequired | ValidationConfigMinLength | ValidationConfigMaxLength | ValidationConfigDigitsOnly | ValidationConfigNumberRange | ValidationConfigEmail     | ValidationConfigUrl | ValidationConfigFileSize | ValidationConfigFileType} ValidationConfig
+ * @typedef {ValidationConfigRequired | ValidationConfigMinLength | ValidationConfigMaxLength | ValidationConfigDigitsOnly | ValidationConfigNumberRange | ValidationConfigEmail     | ValidationConfigUrl | ValidationConfigFileSize | ValidationConfigFileType | ValidationConfigFileDimensions} ValidationConfig
  * @description Configuración de validación que puede ser de diferentes tipos.
  */
 export type ValidationConfig =
@@ -25,7 +25,8 @@ export type ValidationConfig =
     | ValidationConfigEmail
     | ValidationConfigUrl
     | ValidationConfigFileSize
-    | ValidationConfigFileType;
+    | ValidationConfigFileType
+    | ValidationConfigFileDimensions;
 
 /**
  * @template T
@@ -81,7 +82,7 @@ export enum TypeFile {
     XLSX = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
     MP3 = 'audio/mpeg',
     MP4 = 'video/mp4'
-  }
+}
 
 export enum FileSize {
     "100KB" = 100 * 1024,
@@ -129,6 +130,15 @@ export enum FileSize {
     "400MB" = 400 * 1024 * 1024,
     "450MB" = 450 * 1024 * 1024,
     "500MB" = 500 * 1024 * 1024,
+    "550MB" = 550 * 1024 * 1024,
+    "600MB" = 600 * 1024 * 1024,
+    "650MB" = 650 * 1024 * 1024,
+    "700MB" = 700 * 1024 * 1024,
+    "750MB" = 750 * 1024 * 1024,
+    "800MB" = 800 * 1024 * 1024,
+    "850MB" = 850 * 1024 * 1024,
+    "900MB" = 900 * 1024 * 1024,
+    "950MB" = 950 * 1024 * 1024,
     "1000MB" = 1000 * 1024 * 1024
 }
 

@@ -1,7 +1,8 @@
 import { log } from "console";
-import { DEFAULT_ERROR_DIGITS_ONLY_MESSAGE, defaultMaxLengthMessage, defaultMinLengthMessage, defaultNumberRangeMessage, DEFAULT_ERROR_REQUIRED_MESSAGE, expressionDigitsOnlyValidator, expressionMaxLengthValidator, expressionMinLengthValidator, expressionNumberRangeValidator, expressionRequiredValidator, EXPRESSION_REGULAR_ONLY_NUMBERS, EXPRESSION_REGULAR_DECIMALS, DEFAULT_ERROR_EMAIL_MESSAGE, expressionEmailValidator, DEFAULT_ERROR_URL_MESSAGE, expressionUrlValidator, DEFAULT_FILE_SIZE_MESSAGE, expressionFileSizeValidator, DEFAULT_FILE_TYPE_MESSAGE, expressionFileTypeValidator } from "./Constants";
+import { DEFAULT_ERROR_DIGITS_ONLY_MESSAGE, defaultMaxLengthMessage, defaultMinLengthMessage, defaultNumberRangeMessage, DEFAULT_ERROR_REQUIRED_MESSAGE, expressionDigitsOnlyValidator, expressionMaxLengthValidator, expressionMinLengthValidator, expressionNumberRangeValidator, expressionRequiredValidator, EXPRESSION_REGULAR_ONLY_NUMBERS, EXPRESSION_REGULAR_DECIMALS, DEFAULT_ERROR_EMAIL_MESSAGE, expressionEmailValidator, DEFAULT_ERROR_URL_MESSAGE, expressionUrlValidator, DEFAULT_ERROR_FILE_SIZE_MESSAGE, expressionFileSizeValidator, DEFAULT_ERROR_FILE_TYPE_MESSAGE, expressionFileTypeValidator, DEFAULT_ERROR_FILE_DIMENSIONS_MESSAGE, expressionImageDimensionsValidator, defaultErrorFileDimensionsMessage } from "./Constants";
 import { BuilderValidationConfig, FieldValidationConfig, FormErrors, SetState, ValidationConfig, ValidationRule } from "./FormTypes";
 import { ValidationType } from "./Validators";
+import { promises } from "dns";
 
 export class FormManager<T> {
     private _rules: Map<keyof T, ValidationRule<T>[]> = new Map();
@@ -83,15 +84,23 @@ export class FormManager<T> {
                 case ValidationType.FileSize:
                     this.addRule(
                         field,
-                        validationConfig.message || DEFAULT_FILE_SIZE_MESSAGE,
+                        validationConfig.message || DEFAULT_ERROR_FILE_SIZE_MESSAGE,
                         (file: File) => expressionFileSizeValidator(file, validationConfig.value)
                     )
                     break;
                 case ValidationType.FileType:
                     this.addRule(
                         field,
-                        validationConfig.message || DEFAULT_FILE_TYPE_MESSAGE,
-                        (file:File) => expressionFileTypeValidator(file,validationConfig.value)
+                        validationConfig.message || DEFAULT_ERROR_FILE_TYPE_MESSAGE,
+                        (file: File) => expressionFileTypeValidator(file, validationConfig.value)
+                    )
+                    break;
+                case ValidationType.FileDimensions:
+                    const { width, height } = validationConfig.value;
+                    this.addRule(
+                        field,
+                        validationConfig.message || defaultErrorFileDimensionsMessage(width, height),
+                        (file: File) => expressionImageDimensionsValidator(file, { width, height })
                     )
                     break;
                 default:
@@ -140,7 +149,7 @@ export class FormManager<T> {
 
         const fieldValidation: FieldValidationConfig<T> = this._AllfieldValidationConfig.find(item => item.field === name)!;
         const { field, validations, isNumber, isDecimal } = fieldValidation;
-        
+
         if ('isNumber' in fieldValidation && isNumber && value === '0') {
             value = '';
         }

@@ -32,7 +32,10 @@ export enum ValidationType {
     FileType = "FileType",
 
      /** tamaño de archivo */
-    FileSize = 'FileSize'
+    FileSize = 'FileSize',
+
+    /** Dimensiones de archivo*/
+    FileDimensions = 'FileDimensions'
 }
 
 
@@ -148,5 +151,17 @@ export type ValidationConfigFileType = {
 export type ValidationConfigFileSize = {
     type: ValidationType.FileSize;
     value: number; // Tamaño máximo permitido en bytes
+    message?: string;
+};
+
+/**
+ * @type {ValidationConfigFileDimensions}
+ * @property {ValidationType.FileDimensions} type
+ * @property {number} value
+ * @property {string} message
+*/
+export type ValidationConfigFileDimensions = {
+    type: ValidationType.FileDimensions;
+    value: { width: number; height: number }; // Dimensiones permitidas
     message?: string;
 };

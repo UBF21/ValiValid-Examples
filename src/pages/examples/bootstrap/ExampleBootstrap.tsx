@@ -6,7 +6,7 @@ import { FormErrors } from '../../../formValidation/FormTypes';
 
 const ExampleBootstrap = () => {
 
-  const [formPerson, setFormPerson] = useState<Person>({ name: "", lastName: "", yearsOld: 0, sex: "", skills: "", email: "", urlLinkedin: "",foto: new Blob,cv:new Blob });
+  const [formPerson, setFormPerson] = useState<Person>({ name: "", lastName: "", yearsOld: 0, sex: "", skills: "", email: "", urlLinkedin: "",foto: new Blob,cv:new Blob,profile:new Blob() });
   const [formErrors, setFormErrors] = useState<FormErrors<Person>>({});
   const [isFormValid, setIsFormValid] = useState<boolean>(false);
 
@@ -63,7 +63,7 @@ const ExampleBootstrap = () => {
 
   const onSubmit = (e: React.FormEvent): void => {
     e.preventDefault();
-    const initial: Person = { name: "", lastName: "", yearsOld: 0, sex: "", skills: "", email: "", urlLinkedin: "",foto:new Blob(),cv:new Blob() };
+    const initial: Person = { name: "", lastName: "", yearsOld: 0, sex: "", skills: "", email: "", urlLinkedin: "",foto:new Blob(),cv:new Blob(),profile:new Blob() };
 
     const errors = formManager.validate(formPerson);
     setFormErrors(errors);
