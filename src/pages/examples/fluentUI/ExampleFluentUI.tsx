@@ -25,19 +25,19 @@ const ExampleFluentUI = () => {
         {
             field: "name",
             validations: [
-                { type: ValidationType.Required, value: true }
+                { type: ValidationType.Required }
             ]
         },
         {
             field: "lastName",
             validations: [
-                { type: ValidationType.Required, value: true }
+                { type: ValidationType.Required }
             ]
         },
         {
             field: "yearsOld",
             validations: [
-                { type: ValidationType.Required, value: true }
+                { type: ValidationType.Required }
             ],
             isNumber: true
         },
@@ -50,27 +50,23 @@ const ExampleFluentUI = () => {
         {
             field: 'email',
             validations: [
-                { type: ValidationType.Required, value: true },
-                { type: ValidationType.Email, value: true }
+                { type: ValidationType.Required },
+                { type: ValidationType.Email }
             ]
         },
         {
             field: 'urlLinkedin',
             validations: [
-                { type: ValidationType.Required, value: true },
-                { type: ValidationType.Url, value: true },
-                {
-                    type: ValidationType.Pattern, message: 'Debe ser mayor a 14 caracteres', value: (value) => value.length >= 14
-                },
-                {
-                    type: ValidationType.Pattern, message: 'Debe tener -', value: (value) => /-/.test(value)
-                }
+                { type: ValidationType.Required },
+                { type: ValidationType.Url},
+                { type: ValidationType.Pattern, message: 'Debe ser mayor a 14 caracteres', value: (value) => value.length >= 14 },
+                { type: ValidationType.Pattern, message: 'Debe tener -', value: (value) => /-/.test(value) }
             ]
         },
         {
             field: "foto",
             validations: [
-                { type: ValidationType.Required, value: true },
+                { type: ValidationType.Required },
                 { type: ValidationType.FileSize, value: FileSize['200KB'] },
                 { type: ValidationType.FileType, value: [TypeFile.JPG] }
             ]
@@ -78,7 +74,7 @@ const ExampleFluentUI = () => {
         {
             field: "cv",
             validations: [
-                { type: ValidationType.Required, value: true },
+                { type: ValidationType.Required },
                 { type: ValidationType.FileSize, value: FileSize['3MB'] },
                 { type: ValidationType.FileType, value: [TypeFile.PDF] }
             ]
@@ -86,7 +82,7 @@ const ExampleFluentUI = () => {
         {
             field: "profile",
             validations: [
-                { type: ValidationType.Required, value: true },
+                { type: ValidationType.Required },
                 { type: ValidationType.FileDimensions, value: { width: 300, height: 300 } }
             ]
         }

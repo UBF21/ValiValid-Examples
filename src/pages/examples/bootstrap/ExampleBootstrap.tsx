@@ -6,7 +6,7 @@ import { FormErrors } from '../../../formValidation/FormTypes';
 
 const ExampleBootstrap = () => {
 
-  const [formPerson, setFormPerson] = useState<Person>({ name: "", lastName: "", yearsOld: 0, sex: "", skills: "", email: "", urlLinkedin: "",foto: new Blob,cv:new Blob,profile:new Blob() });
+  const [formPerson, setFormPerson] = useState<Person>({ name: "", lastName: "", yearsOld: 0, sex: "", skills: "", email: "", urlLinkedin: "", foto: new Blob, cv: new Blob, profile: new Blob() });
   const [formErrors, setFormErrors] = useState<FormErrors<Person>>({});
   const [isFormValid, setIsFormValid] = useState<boolean>(false);
 
@@ -14,40 +14,40 @@ const ExampleBootstrap = () => {
     {
       field: "name",
       validations: [
-        { type: ValidationType.Required,value: true }
+        { type: ValidationType.Required }
       ]
     },
     {
       field: "lastName",
       validations: [
-        { type: ValidationType.Required,value: true }
+        { type: ValidationType.Required }
       ]
     },
     {
       field: "yearsOld",
       validations: [
-        { type: ValidationType.Required, value: true }
+        { type: ValidationType.Required }
       ],
       isNumber: true,
     },
     {
       field: "sex",
       validations: [
-        { type: ValidationType.Required, value: true }
+        { type: ValidationType.Required }
       ]
     },
     {
       field: 'email',
       validations: [
-        { type: ValidationType.Required,value: true },
-        { type: ValidationType.Email,value: true }
+        { type: ValidationType.Required },
+        { type: ValidationType.Email }
       ]
     },
     {
       field: 'urlLinkedin',
       validations: [
-        { type: ValidationType.Required,value: true },
-        { type: ValidationType.Url,value: true }
+        { type: ValidationType.Required },
+        { type: ValidationType.Url }
       ]
     }
   ]);
@@ -63,7 +63,7 @@ const ExampleBootstrap = () => {
 
   const onSubmit = (e: React.FormEvent): void => {
     e.preventDefault();
-    const initial: Person = { name: "", lastName: "", yearsOld: 0, sex: "", skills: "", email: "", urlLinkedin: "",foto:new Blob(),cv:new Blob(),profile:new Blob() };
+    const initial: Person = { name: "", lastName: "", yearsOld: 0, sex: "", skills: "", email: "", urlLinkedin: "", foto: new Blob(), cv: new Blob(), profile: new Blob() };
 
     const errors = formManager.validate(formPerson);
     setFormErrors(errors);

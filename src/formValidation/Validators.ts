@@ -50,7 +50,6 @@ export enum ValidationType {
 */
 export type ValidationConfigRequired = {
     type: ValidationType.Required;
-    value: boolean;
     message?: string;
 };
 
@@ -115,7 +114,6 @@ export type ValidationConfigNumberRange = {
 */
 export type ValidationConfigEmail = {
     type: ValidationType.Email;
-    value: boolean;
     message?: string;
 };
 
@@ -128,7 +126,6 @@ export type ValidationConfigEmail = {
 */
 export type ValidationConfigUrl = {
     type: ValidationType.Url;
-    value: boolean;
     message?: string;
 };
 
