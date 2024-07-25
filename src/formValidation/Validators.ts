@@ -1,4 +1,4 @@
-import { TypeFile } from "./FormTypes";
+import { DateFormat, TypeFile } from "./FormTypes";
 
 /**
  * @name ValidationType
@@ -38,7 +38,10 @@ export enum ValidationType {
     FileDimensions = 'FileDimensions',
 
     /** Patrón Personalizado */
-    Pattern = "Pattern"
+    Pattern = "Pattern",
+
+    /** Formato Fecha */
+    DateFormat = "DateFormat"
 }
 
 
@@ -175,5 +178,17 @@ export type ValidationConfigFileDimensions = {
 export type ValidationConfigPattern = {
     type: ValidationType.Pattern;
     value: (values: any) => boolean; // validación personalizada
+    message?: string;
+};
+
+/**
+ * @type {ValidationConfigDateFormat}
+ * @property {ValidationType.DateFormat} type
+ * @property { DateFormat } format
+ * @property {string} message
+*/
+export type ValidationConfigDateFormat = {
+    type: ValidationType.DateFormat;
+    format: DateFormat;
     message?: string;
 };

@@ -2,14 +2,17 @@ import { Button, Field, Image, Input } from '@fluentui/react-components';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { Person } from '../../../interfaces/Person';
 import { ValidationType } from '../../../formValidation/Validators';
-import { FileSize, FormErrors, TypeFile } from '../../../formValidation/FormTypes';
+import { DateFormat, FileSize, FormErrors, TypeFile } from '../../../formValidation/FormTypes';
 import { FormManager } from '../../../formValidation/FormValidation';
 import { ComboBoxComponent } from './components/ComboBox';
+import { DatePicker } from "@fluentui/react-datepicker-compat";
+import type { DatePickerProps } from "@fluentui/react-datepicker-compat";
+
 import { blob } from 'stream/consumers';
 
 const ExampleFluentUI = () => {
 
-    const [formPerson, setFormPerson] = useState<Person>({ name: "", lastName: "", yearsOld: 0, sex: "", skills: "", email: "", urlLinkedin: "", foto: new Blob(), cv: new Blob(), profile: new Blob() });
+    const [formPerson, setFormPerson] = useState<Person>({ name: "", lastName: "", yearsOld: 0, sex: "", skills: "", email: "", urlLinkedin: "", foto: new Blob(), cv: new Blob(), profile: new Blob(), birthdate: "" });
     const [formErrors, setFormErrors] = useState<FormErrors<Person>>({});
     const [isFormValid, setIsFormValid] = useState<boolean>(false);
 
@@ -58,7 +61,7 @@ const ExampleFluentUI = () => {
             field: 'urlLinkedin',
             validations: [
                 { type: ValidationType.Required },
-                { type: ValidationType.Url},
+                { type: ValidationType.Url },
                 { type: ValidationType.Pattern, message: 'Debe ser mayor a 14 caracteres', value: (value) => value.length >= 14 },
                 { type: ValidationType.Pattern, message: 'Debe tener -', value: (value) => /-/.test(value) }
             ]
@@ -84,6 +87,13 @@ const ExampleFluentUI = () => {
             validations: [
                 { type: ValidationType.Required },
                 { type: ValidationType.FileDimensions, value: { width: 300, height: 300 } }
+            ]
+        },
+        {
+            field: "birthdate",
+            validations: [
+                { type: ValidationType.Required },
+                { type: ValidationType.DateFormat, format: DateFormat['YYYY/MM/DD'] }
             ]
         }
     ]);
@@ -117,7 +127,7 @@ const ExampleFluentUI = () => {
 
     const onSubmit = (e: React.FormEvent): void => {
         e.preventDefault();
-        const initial: Person = { name: "", lastName: "", yearsOld: 0, sex: "", skills: "", email: "", urlLinkedin: "", foto: new Blob(), cv: new Blob(), profile: new Blob() };
+        const initial: Person = { name: "", lastName: "", yearsOld: 0, sex: "", skills: "", email: "", urlLinkedin: "", foto: new Blob(), cv: new Blob(), profile: new Blob(), birthdate: "" };
 
         const errors = formManager.validate(formPerson);
         setFormErrors(errors);
@@ -216,6 +226,25 @@ const ExampleFluentUI = () => {
                                     validationMessage={!formErrors ? "none" : formErrors.cv ? formErrors.cv : "Correcto."}
                                 >
                                     <ComboBoxComponent />
+                                </Field>
+                            </div>
+                            <div className="col-12">
+                                <Field
+                                    label="Birthdate"
+                                    validationState={!formErrors ? "none" : formErrors.birthdate ? "error" : "success"}
+                                    validationMessage={!formErrors ? "none" : formErrors.birthdate ? formErrors.birthdate : "Correcto."}
+                                >
+                                    <DatePicker
+                                         size='large'
+                                         value={new Date()}
+                                         onChange={(e) => { handleChange("birthdate", e.target.value) }}
+                                        placeholder="date..." />
+
+                                    <Input
+                                        size='large'
+                                        value={formPerson.birthdate}
+                                        onChange={(e) => { handleChange("birthdate", e.target.value) }}
+                                    />
                                 </Field>
                             </div>
                             <div className='col-md-6 d-flex justify-content-center align-items-center'>

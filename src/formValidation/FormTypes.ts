@@ -1,4 +1,4 @@
-import { ValidationConfigDigitsOnly, ValidationConfigEmail, ValidationConfigFileDimensions, ValidationConfigFileSize, ValidationConfigFileType, ValidationConfigMaxLength, ValidationConfigMinLength, ValidationConfigNumberRange, ValidationConfigPattern, ValidationConfigRequired, ValidationConfigUrl } from "./Validators";
+import { ValidationConfigDateFormat, ValidationConfigDigitsOnly, ValidationConfigEmail, ValidationConfigFileDimensions, ValidationConfigFileSize, ValidationConfigFileType, ValidationConfigMaxLength, ValidationConfigMinLength, ValidationConfigNumberRange, ValidationConfigPattern, ValidationConfigRequired, ValidationConfigUrl } from "./Validators";
 
 /**
  * @type 
@@ -13,7 +13,7 @@ export type SetState<T> = (value: T | ((prevState: T) => T)) => void;
 
 /**
  * 
- * @typedef {ValidationConfigRequired | ValidationConfigMinLength | ValidationConfigMaxLength | ValidationConfigDigitsOnly | ValidationConfigNumberRange | ValidationConfigEmail     | ValidationConfigUrl | ValidationConfigFileSize | ValidationConfigFileType | ValidationConfigFileDimensions | ValidationConfigPattern} ValidationConfig
+ * @typedef {ValidationConfigRequired | ValidationConfigMinLength | ValidationConfigMaxLength | ValidationConfigDigitsOnly | ValidationConfigNumberRange | ValidationConfigEmail     | ValidationConfigUrl | ValidationConfigFileSize | ValidationConfigFileType | ValidationConfigFileDimensions | ValidationConfigPattern | ValidationConfigDateFormat} ValidationConfig
  * @description Configuración de validación que puede ser de diferentes tipos.
  */
 export type ValidationConfig =
@@ -27,7 +27,8 @@ export type ValidationConfig =
     | ValidationConfigFileSize
     | ValidationConfigFileType
     | ValidationConfigFileDimensions
-    | ValidationConfigPattern;
+    | ValidationConfigPattern
+    | ValidationConfigDateFormat;
 
 /**
  * @template T
@@ -84,6 +85,21 @@ export enum TypeFile {
     MP3 = 'audio/mpeg',
     MP4 = 'video/mp4'
 }
+
+export enum DateFormat {
+    "YYYY-MM-DD" = 'YYYY-MM-DD',
+    "DD-MM-YYYY" = 'DD-MM-YYYY',
+    "YYYY/MM/DD" = 'YYYY/MM/DD',
+    "DD/MM/YYYY" = 'DD/MM/YYYY',
+}
+
+export const DateFormatExpressions = {
+    [DateFormat["YYYY-MM-DD"]]: /^\d{4}-\d{2}-\d{2}$/,
+    [DateFormat["DD-MM-YYYY"]]: /^\d{2}-\d{2}-\d{4}$/,
+    [DateFormat["YYYY/MM/DD"]]: /^\d{4}\/\d{2}\/\d{2}$/,
+    [DateFormat["DD/MM/YYYY"]]: /^\d{2}\/\d{2}\/\d{4}$/,
+};
+
 
 export enum FileSize {
     "100KB" = 100 * 1024,
