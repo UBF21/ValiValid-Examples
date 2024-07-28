@@ -10,5 +10,6 @@ export interface Person{
     skills: "JavaScript" | "TypeScript" | "ReactJS" | "Python" | "",
     foto:Blob,
     cv:Blob,
-    profile:Blob
+    profile:Blob,
+    birthdate:string
 }

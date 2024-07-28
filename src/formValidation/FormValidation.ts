@@ -1,8 +1,9 @@
 import { log } from "console";
-import { DEFAULT_ERROR_DIGITS_ONLY_MESSAGE, defaultMaxLengthMessage, defaultMinLengthMessage, defaultNumberRangeMessage, DEFAULT_ERROR_REQUIRED_MESSAGE, expressionDigitsOnlyValidator, expressionMaxLengthValidator, expressionMinLengthValidator, expressionNumberRangeValidator, expressionRequiredValidator, EXPRESSION_REGULAR_ONLY_NUMBERS, EXPRESSION_REGULAR_DECIMALS, DEFAULT_ERROR_EMAIL_MESSAGE, expressionEmailValidator, DEFAULT_ERROR_URL_MESSAGE, expressionUrlValidator, DEFAULT_ERROR_FILE_SIZE_MESSAGE, expressionFileSizeValidator, DEFAULT_ERROR_FILE_TYPE_MESSAGE, expressionFileTypeValidator, DEFAULT_ERROR_FILE_DIMENSIONS_MESSAGE, expressionImageDimensionsValidator, defaultErrorFileDimensionsMessage, DEFAULT_ERROR_PATTERN_MESSAGE } from "./Constants";
+import { DEFAULT_ERROR_DIGITS_ONLY_MESSAGE, defaultErrorMaxLengthMessage, defaultErrorMinLengthMessage, defaultErrorNumberRangeMessage, DEFAULT_ERROR_REQUIRED_MESSAGE, expressionDigitsOnlyValidator, expressionMaxLengthValidator, expressionMinLengthValidator, expressionNumberRangeValidator, expressionRequiredValidator, EXPRESSION_REGULAR_ONLY_NUMBERS, EXPRESSION_REGULAR_DECIMALS, DEFAULT_ERROR_EMAIL_MESSAGE, expressionEmailValidator, DEFAULT_ERROR_URL_MESSAGE, expressionUrlValidator, DEFAULT_ERROR_FILE_SIZE_MESSAGE, expressionFileSizeValidator, DEFAULT_ERROR_FILE_TYPE_MESSAGE, expressionFileTypeValidator, DEFAULT_ERROR_FILE_DIMENSIONS_MESSAGE, expressionImageDimensionsValidator, defaultErrorFileDimensionsMessage, DEFAULT_ERROR_PATTERN_MESSAGE, DEFAULT_ERROR_FORMAT_DATE_MESSAGE, expressionDateFormatValidator, defaultErrorFormatDateMessage } from "./Constants";
 import { BuilderValidationConfig, FieldValidationConfig, FormErrors, SetState, ValidationConfig, ValidationRule } from "./FormTypes";
 import { ValidationType } from "./Validators";
 import { promises } from "dns";
+import { format } from "path";
 
 export class FormManager<T> {
     private _rules: Map<keyof T, ValidationRule<T>[]> = new Map();
@@ -41,14 +42,14 @@ export class FormManager<T> {
                 case ValidationType.MinLength:
                     this.addRule(
                         field,
-                        validationConfig.message || defaultMinLengthMessage(validationConfig.value),
+                        validationConfig.message || defaultErrorMinLengthMessage(validationConfig.value),
                         (value: string) => expressionMinLengthValidator(value, validationConfig.value)
                     );
                     break;
                 case ValidationType.MaxLength:
                     this.addRule(
                         field,
-                        validationConfig.message || defaultMaxLengthMessage(validationConfig.value),
+                        validationConfig.message || defaultErrorMaxLengthMessage(validationConfig.value),
                         (value: string) => expressionMaxLengthValidator(value, validationConfig.value)
                     )
                     break;
@@ -63,7 +64,7 @@ export class FormManager<T> {
                     const [min, max] = validationConfig.value;
                     this.addRule(
                         field,
-                        validationConfig.message || defaultNumberRangeMessage(min, max),
+                        validationConfig.message || defaultErrorNumberRangeMessage(min, max),
                         (value: number) => expressionNumberRangeValidator(value, min, max)
                     );
                     break;
@@ -108,6 +109,13 @@ export class FormManager<T> {
                         field,
                         validationConfig.message || DEFAULT_ERROR_PATTERN_MESSAGE,
                         validationConfig.value
+                    )
+                    break;
+                case ValidationType.DateFormat:
+                    this.addRule(
+                        field,
+                        validationConfig.message || defaultErrorFormatDateMessage(validationConfig.format),
+                        (value: string) => expressionDateFormatValidator(value, validationConfig.format)
                     )
                     break;
                 default:

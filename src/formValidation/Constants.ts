@@ -1,5 +1,5 @@
 import { isEnumMember } from "typescript";
-import { FieldValidationConfig, FileSize, TypeFile, ValidationConfig } from "./FormTypes";
+import { DateFormat, DateFormatExpressions, FieldValidationConfig, FileSize, TypeFile, ValidationConfig } from "./FormTypes";
 
 //Message Error
 
@@ -11,12 +11,14 @@ export const DEFAULT_ERROR_URL_MESSAGE = "Invalid url format.";
 export const DEFAULT_ERROR_FILE_TYPE_MESSAGE = 'File type not allowed.';
 export const DEFAULT_ERROR_FILE_SIZE_MESSAGE = 'The file size exceeds the allowed limit.';
 export const DEFAULT_ERROR_FILE_DIMENSIONS_MESSAGE = 'The file dimensions are not allowed';
+export const DEFAULT_ERROR_FORMAT_DATE_MESSAGE = 'The date format is invalid';
 
 
-export const defaultMinLengthMessage: (value: number) => string = (value: number) => `The field must have at least ${value} characters`;
-export const defaultMaxLengthMessage: (value: number) => string = (value: number) => `The field cannot be more than ${value} characters.`;
-export const defaultNumberRangeMessage: (min: number, max: number) => string = (min: number, max: number) => `The value must be between ${min} and ${max}.`;
+export const defaultErrorMinLengthMessage: (value: number) => string = (value: number) => `The field must have at least ${value} characters`;
+export const defaultErrorMaxLengthMessage: (value: number) => string = (value: number) => `The field cannot be more than ${value} characters.`;
+export const defaultErrorNumberRangeMessage: (min: number, max: number) => string = (min: number, max: number) => `The value must be between ${min} and ${max}.`;
 export const defaultErrorFileDimensionsMessage: (width: number, height: number) => string = (width: number, height: number) => `${DEFAULT_ERROR_FILE_DIMENSIONS_MESSAGE} (${width}x${height}).`;
+export const defaultErrorFormatDateMessage: (format: DateFormat) => string = (format: DateFormat) => `${DEFAULT_ERROR_FORMAT_DATE_MESSAGE}.  the format is (${format}).`;
 
 //Expresion Regular Digits(Numbers)
 export const EXPRESSION_REGULAR_ONLY_NUMBERS: RegExp = /[^\d]/g;
@@ -72,5 +74,9 @@ export const expressionMaxLengthValidator: (value: string, maxLength: number) =>
 export const expressionDigitsOnlyValidator: (value: string) => boolean = (value: string) => EXPRESSION_REGULAR_ONLY_NUMBERS.test(value);
 export const expressionEmailValidator: (value: string) => boolean = (value: string) => EXPRESSION_EMAIL.test(value);
 export const expressionUrlValidator: (value: string) => boolean = (value: string) => EXPRESSION_URL.test(value);
+
+
+//Dates
+export const expressionDateFormatValidator: (value: string, format: DateFormat) => boolean = (value: string, format: DateFormat) => DateFormatExpressions[format].test(value);
 
 // INITIALIZERS
