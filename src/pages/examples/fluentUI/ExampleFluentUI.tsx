@@ -5,10 +5,7 @@ import { ValidationType } from '../../../formValidation/Validators';
 import { DateFormat, FileSize, FormErrors, TypeFile } from '../../../formValidation/FormTypes';
 import { FormManager } from '../../../formValidation/FormValidation';
 import { ComboBoxComponent } from './components/ComboBox';
-import { DatePicker } from "@fluentui/react-datepicker-compat";
-import type { DatePickerProps } from "@fluentui/react-datepicker-compat";
 
-import { blob } from 'stream/consumers';
 
 const ExampleFluentUI = () => {
 
@@ -235,7 +232,7 @@ const ExampleFluentUI = () => {
                                     <ComboBoxComponent />
                                 </Field>
                             </div>
-                            <div className="col-12">
+                            {/* <div className="col-12">
                                 <Field
                                     label="Birthdate"
                                     validationState={!formErrors ? "none" : formErrors.birthdate ? "error" : "success"}
@@ -253,7 +250,7 @@ const ExampleFluentUI = () => {
                                         onChange={(e) => { handleChange("birthdate", e.target.value) }}
                                     />
                                 </Field>
-                            </div>
+                            </div> */}
                             <div className='col-md-6 d-flex justify-content-center align-items-center'>
                                 <Field
                                     label=""
