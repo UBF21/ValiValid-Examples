@@ -44,7 +44,7 @@ const ExampleFluentUI = () => {
         // {
         //     field: "sex",
         //     validations: [
-        //         { type: ValidationType.Required, value: true }
+        //         { type: ValidationType.Required }
         //     ]
         // },
         {
@@ -58,9 +58,16 @@ const ExampleFluentUI = () => {
             field: 'urlLinkedin',
             validations: [
                 { type: ValidationType.Required },
-                { type: ValidationType.Url},
-                { type: ValidationType.Pattern, message: 'Debe ser mayor a 14 caracteres', value: (value) => value.length >= 14 },
-                { type: ValidationType.Pattern, message: 'Debe tener -', value: (value) => /-/.test(value) }
+                { type: ValidationType.Url },
+                {
+                    type: ValidationType.Pattern, message: 'Debe ser mayor a 14 caracteres',
+                    value: (value) => value.length >= 14
+                },
+                {
+                    type: ValidationType.Pattern,
+                    message: 'Debe tener -',
+                    value: (value) => /-/.test(value)
+                }
             ]
         },
         {
@@ -91,7 +98,7 @@ const ExampleFluentUI = () => {
     useEffect(() => {
         const errors = formManager.validate(formPerson);
         setFormErrors(errors);
-    }, [formPerson])
+    }, [])
 
     const handleClickImage = () => {
         if (fileImageInputHidden.current !== null && fileImageInputHidden.current !== undefined) {
@@ -231,7 +238,7 @@ const ExampleFluentUI = () => {
                                             setFileImage(URL.createObjectURL(file));
                                         }
                                     }} />
-                                    <Image src={fileImage || 'https://mexicana.cultura.gob.mx/work/models/repositorio/img/empty.jpg'}
+                                    <Image src={fileImage || '/img/empty.jpg'}
                                         style={{ width: '150px', height: '150px', marginBottom: '8px' }}
                                         fit='cover'
                                         shadow={true}
@@ -278,7 +285,7 @@ const ExampleFluentUI = () => {
                                             setFileImageDimensions(URL.createObjectURL(file));
                                         }
                                     }} />
-                                    <Image src={fileImageDimensions || 'https://mexicana.cultura.gob.mx/work/models/repositorio/img/empty.jpg'}
+                                    <Image src={fileImageDimensions || '/img/empty.jpg'}
                                         style={{ width: '150px', height: '150px', marginBottom: '8px' }}
                                         fit='cover'
                                         shadow={true}
