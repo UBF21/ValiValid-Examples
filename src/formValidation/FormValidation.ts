@@ -1,5 +1,5 @@
 import { log } from "console";
-import { DEFAULT_ERROR_DIGITS_ONLY_MESSAGE, defaultErrorMaxLengthMessage, defaultErrorMinLengthMessage, defaultErrorNumberRangeMessage, DEFAULT_ERROR_REQUIRED_MESSAGE, expressionDigitsOnlyValidator, expressionMaxLengthValidator, expressionMinLengthValidator, expressionNumberRangeValidator, expressionRequiredValidator, EXPRESSION_REGULAR_ONLY_NUMBERS, EXPRESSION_REGULAR_DECIMALS, DEFAULT_ERROR_EMAIL_MESSAGE, expressionEmailValidator, DEFAULT_ERROR_URL_MESSAGE, expressionUrlValidator, DEFAULT_ERROR_FILE_SIZE_MESSAGE, expressionFileSizeValidator, DEFAULT_ERROR_FILE_TYPE_MESSAGE, expressionFileTypeValidator, DEFAULT_ERROR_FILE_DIMENSIONS_MESSAGE, expressionImageDimensionsValidator, defaultErrorFileDimensionsMessage, DEFAULT_ERROR_PATTERN_MESSAGE, DEFAULT_ERROR_FORMAT_DATE_MESSAGE, expressionDateFormatValidator, defaultErrorFormatDateMessage, DEFAULT_ERROR_NUMBER_POSITIVE, expressionNumberPositive, DEFAULT_ERROR_NUMBER_NEGATIVE, expressionNumberNegative, DEFAULT_ERROR_ALPHA, expressionAlpha, DEFAULT_ERROR_ALPHA_NUMERIC, expressionAlphaNumeric } from "./Constants";
+import { DEFAULT_ERROR_DIGITS_ONLY_MESSAGE, defaultErrorMaxLengthMessage, defaultErrorMinLengthMessage, defaultErrorNumberRangeMessage, DEFAULT_ERROR_REQUIRED_MESSAGE, expressionDigitsOnlyValidator, expressionMaxLengthValidator, expressionMinLengthValidator, expressionNumberRangeValidator, expressionRequiredValidator, EXPRESSION_REGULAR_ONLY_NUMBERS, EXPRESSION_REGULAR_DECIMALS, DEFAULT_ERROR_EMAIL_MESSAGE, expressionEmailValidator, DEFAULT_ERROR_URL_MESSAGE, expressionUrlValidator, DEFAULT_ERROR_FILE_SIZE_MESSAGE, expressionFileSizeValidator, DEFAULT_ERROR_FILE_TYPE_MESSAGE, expressionFileTypeValidator, DEFAULT_ERROR_FILE_DIMENSIONS_MESSAGE, expressionImageDimensionsValidator, defaultErrorFileDimensionsMessage, DEFAULT_ERROR_PATTERN_MESSAGE, DEFAULT_ERROR_FORMAT_DATE_MESSAGE, expressionDateFormatValidator, defaultErrorFormatDateMessage, DEFAULT_ERROR_NUMBER_POSITIVE, expressionNumberPositive, DEFAULT_ERROR_NUMBER_NEGATIVE, expressionNumberNegative, DEFAULT_ERROR_ALPHA, expressionAlpha, DEFAULT_ERROR_ALPHA_NUMERIC, expressionAlphaNumeric, DEFAULT_ERROR_UPPER_CASE, expressionLowerCase, expressionUpperCase } from "./Constants";
 import { BuilderValidationConfig, FieldValidationConfig, FormErrors, SetState, ValidationsConfig, ValidationRule } from "./FormTypes";
 import { ValidationType } from "./Validators";
 import { promises } from "dns";
@@ -144,6 +144,20 @@ export class FormManager<T> {
                         field,
                         validationConfig.message || DEFAULT_ERROR_ALPHA_NUMERIC,
                         (value: string) => expressionAlphaNumeric(value)
+                    )
+                    break;
+                case ValidationType.LowerCase:
+                    this.addRule(
+                        field,
+                        validationConfig.message || DEFAULT_ERROR_UPPER_CASE,
+                        (value: string) => expressionLowerCase(value)
+                    )
+                    break;
+                case ValidationType.UpperCase:
+                    this.addRule(
+                        field,
+                        validationConfig.message || DEFAULT_ERROR_UPPER_CASE,
+                        (value: string) => expressionUpperCase(value)
                     )
                     break;
                 default:

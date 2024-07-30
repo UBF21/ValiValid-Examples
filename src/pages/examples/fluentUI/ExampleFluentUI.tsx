@@ -27,7 +27,8 @@ const ExampleFluentUI = () => {
         {
             field: "name",
             validations: [
-                { type: ValidationType.Required }
+                { type: ValidationType.Required },
+                { type: ValidationType.LowerCase },
             ]
         },
         {

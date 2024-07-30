@@ -53,7 +53,14 @@ export enum ValidationType {
     Alpha = "Alpha",
 
     /** Letras y Números */
-    AlphaNumeric = "AlphaNumeric"
+    AlphaNumeric = "AlphaNumeric",
+
+    /** Letras Minúsculas */
+    LowerCase = "LowerCase",
+
+    /** Letras Mayusculas */
+    UpperCase = "UpperCase"
+
 }
 
 /**
@@ -240,3 +247,24 @@ export type ValidationConfigAlphaNumeric = {
     type: ValidationType.AlphaNumeric;
     message?: string;
 };
+
+/**
+ * @type {ValidationConfigLowerCase}
+ * @property {ValidationType.LowerCase} type
+ * @property {string} message
+*/
+export type ValidationConfigLowerCase = {
+    type: ValidationType.LowerCase;
+    message?: string;
+};
+
+/**
+ * @type {ValidationConfigUpperCase}
+ * @property {ValidationType.UpperCase} type
+ * @property {string} message
+*/
+export type ValidationConfigUpperCase = {
+    type: ValidationType.UpperCase;
+    message?: string;
+};
+

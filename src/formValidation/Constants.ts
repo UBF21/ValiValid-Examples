@@ -1,5 +1,4 @@
-import { isEnumMember } from "typescript";
-import { DateFormat, DateFormatExpressions, FieldValidationConfig, FileSize, TypeFile, ValidationsConfig } from "./FormTypes";
+import { DateFormat, DateFormatExpressions, FieldValidationConfig, FileSize, TypeFile } from "./FormTypes";
 
 //Message Error
 export const DEFAULT_ERROR_PATTERN_MESSAGE: string = "Does not comply with the patternRequired field.";
@@ -15,6 +14,8 @@ export const DEFAULT_ERROR_NUMBER_POSITIVE: string = 'Only positive numbers are 
 export const DEFAULT_ERROR_NUMBER_NEGATIVE: string = 'Only negative numbers are allowed.';
 export const DEFAULT_ERROR_ALPHA: string = 'Only supports letters.';
 export const DEFAULT_ERROR_ALPHA_NUMERIC: string = 'Only supports letters and numbers.';
+export const DEFAULT_ERROR_LOWER_CASE: string = 'Only supports lowercase letters.';
+export const DEFAULT_ERROR_UPPER_CASE: string = 'Only supports uppercase letters.';
 
 //Message error con parametros
 export const defaultErrorMinLengthMessage: (value: number) => string = (value: number) => `The field must have at least ${value} characters`;
@@ -22,6 +23,7 @@ export const defaultErrorMaxLengthMessage: (value: number) => string = (value: n
 export const defaultErrorNumberRangeMessage: (min: number, max: number) => string = (min: number, max: number) => `The value must be between ${min} and ${max}.`;
 export const defaultErrorFileDimensionsMessage: (width: number, height: number) => string = (width: number, height: number) => `${DEFAULT_ERROR_FILE_DIMENSIONS_MESSAGE} (${width}x${height}).`;
 export const defaultErrorFormatDateMessage: (format: DateFormat) => string = (format: DateFormat) => `${DEFAULT_ERROR_FORMAT_DATE_MESSAGE}.  the format is (${format}).`;
+export const defaultErrorExactLength: (exactLength: number) => string = (exactLength: number) => `only supports an exact length of ${exactLength} characters`;
 
 //Expresion Regular Digits(Numbers)
 export const EXPRESSION_REGULAR_ONLY_NUMBERS: RegExp = /[^\d]/g;
@@ -32,6 +34,8 @@ export const EXPRESSION_EMAIL: RegExp = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 export const EXPRESSION_URL: RegExp = /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/;
 export const EXPRESSION_ALPHA: RegExp = /^[a-zA-Z]+$/;
 export const EXPRESSION_ALPHA_NUMERIC: RegExp = /^[a-zA-Z0-9]+$/;
+export const EXPRESSION_LOWER_CASE: RegExp = /^[a-z]+$/;
+export const EXPRESSION_UPPER_CASE: RegExp = /^[A-Z]+$/;
 
 //Number
 export const expressionNumberRangeValidator: (value: number, min: number, max: number) => boolean = (value: number, min: number, max: number) => typeof value === 'number' && value >= min && value <= max;
@@ -87,7 +91,9 @@ export const expressionEmailValidator: (value: string) => boolean = (value: stri
 export const expressionUrlValidator: (value: string) => boolean = (value: string) => EXPRESSION_URL.test(value);
 export const expressionAlpha: (value: string) => boolean = (value: string) => EXPRESSION_ALPHA.test(value);
 export const expressionAlphaNumeric: (value: string) => boolean = (value: string) => EXPRESSION_ALPHA_NUMERIC.test(value);
-
+export const expressionLowerCase: (value: string) => boolean = (value: string) => EXPRESSION_LOWER_CASE.test(value);
+export const expressionUpperCase: (value: string) => boolean = (value: string) => EXPRESSION_UPPER_CASE.test(value);
+// export const expressionExactLength: (value: string, exactLength: number) => boolean = (value: string, exactLength: number) => value.length !== exactLength;
 //Dates
 export const expressionDateFormatValidator: (value: string, format: DateFormat) => boolean = (value: string, format: DateFormat) => DateFormatExpressions[format].test(value.toString());
 
