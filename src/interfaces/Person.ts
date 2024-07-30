@@ -4,12 +4,13 @@ export interface Person{
     name:string;
     lastName:string;
     yearsOld:number | string;
-    sex: "F" | "M" | "",
+    sex: "F" | "M" | "";
     email:string;
     urlLinkedin:string;
-    skills: "JavaScript" | "TypeScript" | "ReactJS" | "Python" | "",
-    foto:Blob,
-    cv:Blob,
-    profile:Blob,
-    birthdate:string
+    skills: "JavaScript" | "TypeScript" | "ReactJS" | "Python" | "";
+    foto:Blob;
+    cv:Blob;
+    profile:Blob;
+    birthdate:Date | null;
+    dateOfGraduation:string;
 }

@@ -3,10 +3,11 @@ import { ValidationType } from '../../../formValidation/Validators';
 import { FormManager } from '../../../formValidation/FormValidation';
 import { Person } from '../../../interfaces/Person';
 import { FormErrors } from '../../../formValidation/FormTypes';
+import { personsInitializers } from '../fluentUI/interfaces/Initializers';
 
 const ExampleBootstrap = () => {
 
-  const [formPerson, setFormPerson] = useState<Person>({ name: "", lastName: "", yearsOld: 0, sex: "", skills: "", email: "", urlLinkedin: "", foto: new Blob, cv: new Blob, profile: new Blob(),birthdate:"" });
+  const [formPerson, setFormPerson] = useState<Person>(personsInitializers());
   const [formErrors, setFormErrors] = useState<FormErrors<Person>>({});
   const [isFormValid, setIsFormValid] = useState<boolean>(false);
 
@@ -63,14 +64,13 @@ const ExampleBootstrap = () => {
 
   const onSubmit = (e: React.FormEvent): void => {
     e.preventDefault();
-    const initial: Person = { name: "", lastName: "", yearsOld: 0, sex: "", skills: "", email: "", urlLinkedin: "", foto: new Blob(), cv: new Blob(), profile: new Blob(),birthdate:"" };
 
     const errors = formManager.validate(formPerson);
     setFormErrors(errors);
 
     if (isFormValid) {
       console.log('Form submitted:', formPerson);
-      setFormPerson(initial);
+      setFormPerson(personsInitializers());
     }
 
   }

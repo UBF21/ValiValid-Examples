@@ -9,10 +9,11 @@ import { DatePicker } from "@fluentui/react-datepicker-compat";
 import type { DatePickerProps } from "@fluentui/react-datepicker-compat";
 
 import { blob } from 'stream/consumers';
+import { personsInitializers } from './interfaces/Initializers';
 
 const ExampleFluentUI = () => {
 
-    const [formPerson, setFormPerson] = useState<Person>({ name: "", lastName: "", yearsOld: 0, sex: "", skills: "", email: "", urlLinkedin: "", foto: new Blob(), cv: new Blob(), profile: new Blob(), birthdate: "" });
+    const [formPerson, setFormPerson] = useState<Person>(personsInitializers());
     const [formErrors, setFormErrors] = useState<FormErrors<Person>>({});
     const [isFormValid, setIsFormValid] = useState<boolean>(false);
 
@@ -95,6 +96,13 @@ const ExampleFluentUI = () => {
                 { type: ValidationType.Required },
                 { type: ValidationType.DateFormat, format: DateFormat['YYYY/MM/DD'] }
             ]
+        },
+        {
+            field: "dateOfGraduation",
+            validations: [
+                { type: ValidationType.Required },
+                { type: ValidationType.DateFormat, format: DateFormat['YYYY/MM/DD'] }
+            ]
         }
     ]);
 
@@ -127,14 +135,13 @@ const ExampleFluentUI = () => {
 
     const onSubmit = (e: React.FormEvent): void => {
         e.preventDefault();
-        const initial: Person = { name: "", lastName: "", yearsOld: 0, sex: "", skills: "", email: "", urlLinkedin: "", foto: new Blob(), cv: new Blob(), profile: new Blob(), birthdate: "" };
 
         const errors = formManager.validate(formPerson);
         setFormErrors(errors);
 
         if (isFormValid) {
             console.log('Form submitted:', formPerson);
-            setFormPerson(initial);
+            setFormPerson(personsInitializers());
             setFileImage("");
             setFileImageDimensions("");
             setFile("");
@@ -236,15 +243,27 @@ const ExampleFluentUI = () => {
                                 >
                                     <DatePicker
                                          size='large'
-                                         value={new Date()}
-                                         onChange={(e) => { handleChange("birthdate", e.target.value) }}
-                                        placeholder="date..." />
-
+                                         value={formPerson.birthdate}
+                                         onChange={(e,data) => { 
+                                            console.log(data);
+                                            handleChange("birthdate", e.target.value) }
+                                        }
+                                        placeholder="YYYY/MM/DD" />
+                                </Field>
+                            </div>
+                            <div className="col-12">
+                                <Field
+                                    label="Date of Graduation"
+                                    validationState={!formErrors ? "none" : formErrors.dateOfGraduation ? "error" : "success"}
+                                    validationMessage={!formErrors ? "none" : formErrors.dateOfGraduation ? formErrors.dateOfGraduation : "Correcto."}
+                                >
                                     <Input
                                         size='large'
-                                        value={formPerson.birthdate}
-                                        onChange={(e) => { handleChange("birthdate", e.target.value) }}
+                                        type='date'
+                                        value={formPerson.dateOfGraduation?.toString() || ""  }
+                                        onChange={(e) => { handleChange("dateOfGraduation", e.target.value) }}
                                     />
+        
                                 </Field>
                             </div>
                             <div className='col-md-6 d-flex justify-content-center align-items-center'>
