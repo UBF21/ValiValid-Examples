@@ -2,7 +2,7 @@ import { DateFormat, TypeFile } from "./FormTypes";
 
 /**
  * @name ValidationType
- * @enum {string}
+ * @enum { string }
  * @description Lista de tipos de validaciones predeterminadas de ValiValid
  * */
 export enum ValidationType {
@@ -44,12 +44,11 @@ export enum ValidationType {
     DateFormat = "DateFormat"
 }
 
-
 /**
- * @type {ValidationConfigRequired}
- * @property {ValidationType.Required} type
- * @property {boolean} value
- * @property {string} message
+ * @type { ValidationConfigRequired }
+ * @property { ValidationType.Required } type
+ * @property { boolean } value
+ * @property { string } message
 */
 export type ValidationConfigRequired = {
     type: ValidationType.Required;
@@ -58,10 +57,10 @@ export type ValidationConfigRequired = {
 
 
 /**
- * @type {ValidationConfigMinLength}
- * @property {ValidationType.MinLength} type
- * @property {boolean} value
- * @property {string} message
+ * @type { ValidationConfigMinLength }
+ * @property { ValidationType.MinLength } type
+ * @property { boolean } value
+ * @property { string } message
 */
 export type ValidationConfigMinLength = {
     type: ValidationType.MinLength;
@@ -71,10 +70,10 @@ export type ValidationConfigMinLength = {
 
 
 /**
- * @type {ValidationConfigMaxLength}
- * @property {ValidationType.MaxLength} type
- * @property {boolean} value
- * @property {string} message
+ * @type { ValidationConfigMaxLength }
+ * @property { ValidationType.MaxLength } type
+ * @property { boolean } value
+ * @property { string } message
 */
 export type ValidationConfigMaxLength = {
     type: ValidationType.MaxLength;
@@ -84,10 +83,10 @@ export type ValidationConfigMaxLength = {
 
 
 /**
- * @type {ValidationConfigDigitsOnly}
- * @property {ValidationType.DigitsOnly} type
- * @property {boolean} value
- * @property {string} message
+ * @type { ValidationConfigDigitsOnly }
+ * @property { ValidationType.DigitsOnly } type
+ * @property { boolean } value
+ * @property { string } message
 */
 export type ValidationConfigDigitsOnly = {
     type: ValidationType.DigitsOnly;
@@ -97,10 +96,10 @@ export type ValidationConfigDigitsOnly = {
 
 
 /**
- * @type {ValidationConfigNumberRange}
- * @property {ValidationType.NumberRange} type
- * @property {boolean} value
- * @property {string} message
+ * @type { ValidationConfigNumberRange }
+ * @property { ValidationType.NumberRange } type
+ * @property { boolean } value
+ * @property { string } message
 */
 export type ValidationConfigNumberRange = {
     type: ValidationType.NumberRange;
@@ -110,10 +109,10 @@ export type ValidationConfigNumberRange = {
 
 
 /**
- * @type {ValidationConfigEmail}
- * @property {ValidationType.Email} type
- * @property {boolean} value
- * @property {string} message
+ * @type { ValidationConfigEmail }
+ * @property { ValidationType.Email } type
+ * @property { boolean } value
+ * @property { string } message
 */
 export type ValidationConfigEmail = {
     type: ValidationType.Email;
@@ -122,10 +121,10 @@ export type ValidationConfigEmail = {
 
 
 /**
- * @type {ValidationConfigUrl}
- * @property {ValidationType.Url} type
- * @property {boolean} value
- * @property {string} message
+ * @type { ValidationConfigUrl }
+ * @property { ValidationType.Url } type
+ * @property { boolean } value
+ * @property { string } message
 */
 export type ValidationConfigUrl = {
     type: ValidationType.Url;
@@ -134,10 +133,10 @@ export type ValidationConfigUrl = {
 
 
 /**
- * @type {ValidationConfigFileType}
- * @property {ValidationType.FileType} type
- * @property {string[]} value
- * @property {string} message
+ * @type { ValidationConfigFileType }
+ * @property { ValidationType.FileType } type
+ * @property { string[] } value
+ * @property { string } message
 */
 export type ValidationConfigFileType = {
     type: ValidationType.FileType;
@@ -146,10 +145,10 @@ export type ValidationConfigFileType = {
 };
 
 /**
- * @type {ValidationConfigFileSize}
- * @property {ValidationType.FileSize} type
- * @property {number} value
- * @property {string} message
+ * @type { ValidationConfigFileSize }
+ * @property { ValidationType.FileSize } type
+ * @property { number } value
+ * @property { string } message
 */
 export type ValidationConfigFileSize = {
     type: ValidationType.FileSize;
@@ -158,10 +157,10 @@ export type ValidationConfigFileSize = {
 };
 
 /**
- * @type {ValidationConfigFileDimensions}
- * @property {ValidationType.FileDimensions} type
+ * @type { ValidationConfigFileDimensions }
+ * @property { ValidationType.FileDimensions } type
  * @property { width:number, height:number } value
- * @property {string} message
+ * @property { string } message
 */
 export type ValidationConfigFileDimensions = {
     type: ValidationType.FileDimensions;
@@ -170,10 +169,10 @@ export type ValidationConfigFileDimensions = {
 };
 
 /**
- * @type {ValidationConfigPattern}
- * @property {ValidationType.Pattern} type
+ * @type { ValidationConfigPattern }
+ * @property {ValidationType.Pattern } type
  * @property { ( value:any ) => boolean } value
- * @property {string} message
+ * @property { string } message
 */
 export type ValidationConfigPattern = {
     type: ValidationType.Pattern;
