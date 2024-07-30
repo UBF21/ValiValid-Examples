@@ -4,8 +4,10 @@ export const personsInitializers = (): Person => {
     return {
         name: "",
         lastName: "",
-        yearsOld: 0, sex: "",
-        skills: "", email: "",
+        yearsOld: 0, 
+        sex: "",
+        skills: "", 
+        email: "",
         urlLinkedin: "",
         foto: new Blob(),
         cv: new Blob(),

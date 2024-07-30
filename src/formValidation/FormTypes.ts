@@ -1,4 +1,4 @@
-import { ValidationConfigDateFormat, ValidationConfigDigitsOnly, ValidationConfigEmail, ValidationConfigFileDimensions, ValidationConfigFileSize, ValidationConfigFileType, ValidationConfigMaxLength, ValidationConfigMinLength, ValidationConfigNumberRange, ValidationConfigPattern, ValidationConfigRequired, ValidationConfigUrl } from "./Validators";
+import { ValidationConfigDateFormat, ValidationConfigDigitsOnly, ValidationConfigEmail, ValidationConfigFileDimensions, ValidationConfigFileSize, ValidationConfigFileType, ValidationConfigMaxLength, ValidationConfigMinLength, ValidationConfigNumberRange, ValidationConfigPattern, ValidationConfigRequired, ValidationConfigUrl,ValidationConfigNumberNegative,ValidationConfigNumberPositive } from "./Validators";
 
 /**
  * @type 
@@ -16,7 +16,7 @@ export type SetState<T> = (value: T | ((prevState: T) => T)) => void;
  * @typedef {ValidationConfigRequired | ValidationConfigMinLength | ValidationConfigMaxLength | ValidationConfigDigitsOnly | ValidationConfigNumberRange | ValidationConfigEmail     | ValidationConfigUrl | ValidationConfigFileSize | ValidationConfigFileType | ValidationConfigFileDimensions | ValidationConfigPattern | ValidationConfigDateFormat} ValidationConfig
  * @description Configuración de validación que puede ser de diferentes tipos.
  */
-export type ValidationConfig =
+export type ValidationsConfig =
     | ValidationConfigRequired
     | ValidationConfigMinLength
     | ValidationConfigMaxLength
@@ -28,21 +28,24 @@ export type ValidationConfig =
     | ValidationConfigFileType
     | ValidationConfigFileDimensions
     | ValidationConfigPattern
-    | ValidationConfigDateFormat;
+    | ValidationConfigDateFormat
+    | ValidationConfigNumberPositive
+    | ValidationConfigNumberNegative;
 
 /**
  * @template T
  * @typedef {Object} FieldValidationConfig
  * @property {keyof T} field - El nombre del campo en el objeto `T` que se va a validar.
- * @property {ValidationConfig[]} validations - Las configuraciones de validación que se aplican al campo.
+ * @property {ValidationsConfig[]} validations - Las configuraciones de validación que se aplican al campo.
  * @description Configuración de validación para un campo específico de un objeto `T`.
  */
 export type FieldValidationConfig<T> = {
     field: keyof T;
-    validations: ValidationConfig[];
+    validations: ValidationsConfig[];
     isNumber?: boolean;
     isDecimal?: boolean;
 };
+
 
 /**
  * @template T

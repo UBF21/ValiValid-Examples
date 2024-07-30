@@ -7,6 +7,7 @@ import { FormManager } from '../../../formValidation/FormValidation';
 import { ComboBoxComponent } from './components/ComboBox';
 
 import { personsInitializers } from './interfaces/Initializers';
+import { DatePicker } from '@fluentui/react-datepicker-compat';
 
 const ExampleFluentUI = () => {
 
@@ -38,9 +39,11 @@ const ExampleFluentUI = () => {
         {
             field: "yearsOld",
             validations: [
-                { type: ValidationType.Required }
+                { type: ValidationType.Required },
+                {type: ValidationType.NumberPositive}
             ],
-            isNumber: true
+            isNumber: true,
+            isDecimal:true
         },
         // {
         //     field: "sex",
@@ -62,12 +65,12 @@ const ExampleFluentUI = () => {
                 { type: ValidationType.Url },
                 {
                     type: ValidationType.Pattern, message: 'Debe ser mayor a 14 caracteres',
-                    value: (value) => value.length >= 14
+                    value: (value:any) => value.length >= 14
                 },
                 {
                     type: ValidationType.Pattern,
                     message: 'Debe tener -',
-                    value: (value) => /-/.test(value)
+                    value: (value:any) => /-/.test(value)
                 }
             ]
         },
@@ -97,15 +100,13 @@ const ExampleFluentUI = () => {
         {
             field: "birthdate",
             validations: [
-                { type: ValidationType.Required },
-                { type: ValidationType.DateFormat, format: DateFormat['YYYY/MM/DD'] }
+                { type: ValidationType.Required }
             ]
         },
         {
             field: "dateOfGraduation",
             validations: [
-                { type: ValidationType.Required },
-                { type: ValidationType.DateFormat, format: DateFormat['YYYY/MM/DD'] }
+                { type: ValidationType.Required }
             ]
         }
     ]);
@@ -239,19 +240,21 @@ const ExampleFluentUI = () => {
                                     <ComboBoxComponent />
                                 </Field>
                             </div>
-                            {/* <div className="col-12">
+                            <div className="col-12">
                                 <Field
                                     label="Birthdate"
                                     validationState={!formErrors ? "none" : formErrors.birthdate ? "error" : "success"}
                                     validationMessage={!formErrors ? "none" : formErrors.birthdate ? formErrors.birthdate : "Correcto."}
                                 >
                                     <DatePicker
-                                         size='large'
-                                         value={formPerson.birthdate}
-                                         onChange={(e,data) => { 
-                                            console.log(data);
-                                            handleChange("birthdate", e.target.value) }
-                                        }
+                                        size='large'
+                                        value={formPerson.birthdate}
+                                        formatDate={(date) => {
+                                            return !date ? "" : `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
+                                        }}
+                                        onSelectDate={(date) => {
+                                            handleChange("birthdate", date);
+                                        }}
                                         placeholder="YYYY/MM/DD" />
                                 </Field>
                             </div>
@@ -264,12 +267,12 @@ const ExampleFluentUI = () => {
                                     <Input
                                         size='large'
                                         type='date'
-                                        value={formPerson.dateOfGraduation?.toString() || ""  }
+                                        value={formPerson.dateOfGraduation?.toString() || ""}
                                         onChange={(e) => { handleChange("dateOfGraduation", e.target.value) }}
                                     />
-        
+
                                 </Field>
-                            </div> */}
+                            </div>
                             <div className='col-md-6 d-flex justify-content-center align-items-center'>
                                 <Field
                                     label=""
@@ -330,7 +333,8 @@ const ExampleFluentUI = () => {
                                             setFileImageDimensions(URL.createObjectURL(file));
                                         }
                                     }} />
-                                    <Image src={fileImageDimensions || '/img/empty.jpg'}
+                                    <Image 
+                                        src={fileImageDimensions || '/img/empty.jpg'}
                                         style={{ width: '150px', height: '150px', marginBottom: '8px' }}
                                         fit='cover'
                                         shadow={true}

@@ -1,6 +1,6 @@
 import { log } from "console";
-import { DEFAULT_ERROR_DIGITS_ONLY_MESSAGE, defaultErrorMaxLengthMessage, defaultErrorMinLengthMessage, defaultErrorNumberRangeMessage, DEFAULT_ERROR_REQUIRED_MESSAGE, expressionDigitsOnlyValidator, expressionMaxLengthValidator, expressionMinLengthValidator, expressionNumberRangeValidator, expressionRequiredValidator, EXPRESSION_REGULAR_ONLY_NUMBERS, EXPRESSION_REGULAR_DECIMALS, DEFAULT_ERROR_EMAIL_MESSAGE, expressionEmailValidator, DEFAULT_ERROR_URL_MESSAGE, expressionUrlValidator, DEFAULT_ERROR_FILE_SIZE_MESSAGE, expressionFileSizeValidator, DEFAULT_ERROR_FILE_TYPE_MESSAGE, expressionFileTypeValidator, DEFAULT_ERROR_FILE_DIMENSIONS_MESSAGE, expressionImageDimensionsValidator, defaultErrorFileDimensionsMessage, DEFAULT_ERROR_PATTERN_MESSAGE, DEFAULT_ERROR_FORMAT_DATE_MESSAGE, expressionDateFormatValidator, defaultErrorFormatDateMessage } from "./Constants";
-import { BuilderValidationConfig, FieldValidationConfig, FormErrors, SetState, ValidationConfig, ValidationRule } from "./FormTypes";
+import { DEFAULT_ERROR_DIGITS_ONLY_MESSAGE, defaultErrorMaxLengthMessage, defaultErrorMinLengthMessage, defaultErrorNumberRangeMessage, DEFAULT_ERROR_REQUIRED_MESSAGE, expressionDigitsOnlyValidator, expressionMaxLengthValidator, expressionMinLengthValidator, expressionNumberRangeValidator, expressionRequiredValidator, EXPRESSION_REGULAR_ONLY_NUMBERS, EXPRESSION_REGULAR_DECIMALS, DEFAULT_ERROR_EMAIL_MESSAGE, expressionEmailValidator, DEFAULT_ERROR_URL_MESSAGE, expressionUrlValidator, DEFAULT_ERROR_FILE_SIZE_MESSAGE, expressionFileSizeValidator, DEFAULT_ERROR_FILE_TYPE_MESSAGE, expressionFileTypeValidator, DEFAULT_ERROR_FILE_DIMENSIONS_MESSAGE, expressionImageDimensionsValidator, defaultErrorFileDimensionsMessage, DEFAULT_ERROR_PATTERN_MESSAGE, DEFAULT_ERROR_FORMAT_DATE_MESSAGE, expressionDateFormatValidator, defaultErrorFormatDateMessage, DEFAULT_ERROR_NUMBER_POSITIVE, expressionNumberPositive, DEFAULT_ERROR_NUMBER_NEGATIVE, expressionNumberNegative } from "./Constants";
+import { BuilderValidationConfig, FieldValidationConfig, FormErrors, SetState, ValidationsConfig, ValidationRule } from "./FormTypes";
 import { ValidationType } from "./Validators";
 import { promises } from "dns";
 import { format } from "path";
@@ -30,13 +30,13 @@ export class FormManager<T> {
 
         const { field, validations, isNumber = false, isDecimal = false } = fieldValidationConfig;
 
-        validations.forEach((validationConfig: ValidationConfig) => {
+        validations.forEach((validationConfig: ValidationsConfig) => {
             switch (validationConfig.type) {
                 case ValidationType.Required:
                     this.addRule(
                         field,
                         validationConfig.message || DEFAULT_ERROR_REQUIRED_MESSAGE,
-                        (value: string) => expressionRequiredValidator(value)
+                        (value: any) => expressionRequiredValidator(value)
                     );
                     break;
                 case ValidationType.MinLength:
@@ -118,6 +118,20 @@ export class FormManager<T> {
                         (value: string) => expressionDateFormatValidator(value, validationConfig.format)
                     )
                     break;
+                case ValidationType.NumberPositive:
+                    this.addRule(
+                        field,
+                        validationConfig.message || DEFAULT_ERROR_NUMBER_POSITIVE,
+                        (value: number) => expressionNumberPositive(value)
+                    )
+                    break;
+                case ValidationType.NumberNegative:
+                    this.addRule(
+                        field,
+                        validationConfig.message || DEFAULT_ERROR_NUMBER_NEGATIVE,
+                        (value: number) => expressionNumberNegative(value)
+                    )
+                    break;
                 default:
                     throw new Error(`Unsupported validation type.`);
             }
@@ -169,6 +183,7 @@ export class FormManager<T> {
             value = '';
         }
         else if ('isNumber' in fieldValidation && isNumber && isDecimal) {
+            console.log("Hola Decimal");
             value = Number(value);
         }
         else if ('isNumber' in fieldValidation && isNumber) {

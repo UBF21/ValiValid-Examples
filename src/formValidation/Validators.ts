@@ -41,7 +41,13 @@ export enum ValidationType {
     Pattern = "Pattern",
 
     /** Formato Fecha */
-    DateFormat = "DateFormat"
+    DateFormat = "DateFormat",
+
+    /** Números Positivos */
+    NumberPositive = "NumberPositive",
+
+    /**Números Negativos */
+    NumberNegative = "NumberNegative"
 }
 
 /**
@@ -189,5 +195,27 @@ export type ValidationConfigPattern = {
 export type ValidationConfigDateFormat = {
     type: ValidationType.DateFormat;
     format: DateFormat;
+    message?: string;
+};
+
+/**
+ * @type {ValidationConfigNumberPositive}
+ * @property {ValidationType.NumberPositive} type
+ * @property { value } number
+ * @property {string} message
+*/
+export type ValidationConfigNumberPositive = {
+    type: ValidationType.NumberPositive;
+    message?: string;
+};
+
+/**
+ * @type {ValidationConfigNumberNegative}
+ * @property {ValidationType.NumberNegative} type
+ * @property { value } number
+ * @property {string} message
+*/
+export type ValidationConfigNumberNegative = {
+    type: ValidationType.NumberNegative;
     message?: string;
 };
