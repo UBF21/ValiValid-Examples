@@ -1,4 +1,4 @@
-import { DateFormat, TypeFile } from "./FormTypes";
+import { DateFormat, FileSize, TypeFile } from "./FormTypes";
 
 /**
  * @name ValidationType
@@ -47,7 +47,13 @@ export enum ValidationType {
     NumberPositive = "NumberPositive",
 
     /**Números Negativos */
-    NumberNegative = "NumberNegative"
+    NumberNegative = "NumberNegative",
+
+    /** Letras */
+    Alpha = "Alpha",
+
+    /** Letras y Números */
+    AlphaNumeric = "AlphaNumeric"
 }
 
 /**
@@ -91,12 +97,10 @@ export type ValidationConfigMaxLength = {
 /**
  * @type { ValidationConfigDigitsOnly }
  * @property { ValidationType.DigitsOnly } type
- * @property { boolean } value
  * @property { string } message
 */
 export type ValidationConfigDigitsOnly = {
     type: ValidationType.DigitsOnly;
-    value: boolean;
     message?: string;
 };
 
@@ -104,7 +108,7 @@ export type ValidationConfigDigitsOnly = {
 /**
  * @type { ValidationConfigNumberRange }
  * @property { ValidationType.NumberRange } type
- * @property { boolean } value
+ * @property {  [number, number] } value
  * @property { string } message
 */
 export type ValidationConfigNumberRange = {
@@ -117,7 +121,6 @@ export type ValidationConfigNumberRange = {
 /**
  * @type { ValidationConfigEmail }
  * @property { ValidationType.Email } type
- * @property { boolean } value
  * @property { string } message
 */
 export type ValidationConfigEmail = {
@@ -129,7 +132,6 @@ export type ValidationConfigEmail = {
 /**
  * @type { ValidationConfigUrl }
  * @property { ValidationType.Url } type
- * @property { boolean } value
  * @property { string } message
 */
 export type ValidationConfigUrl = {
@@ -146,7 +148,7 @@ export type ValidationConfigUrl = {
 */
 export type ValidationConfigFileType = {
     type: ValidationType.FileType;
-    value: TypeFile[]; // Lista de tipos MIME permitidos
+    value: TypeFile[] | string[]; // Lista de tipos MIME permitidos
     message?: string;
 };
 
@@ -158,7 +160,7 @@ export type ValidationConfigFileType = {
 */
 export type ValidationConfigFileSize = {
     type: ValidationType.FileSize;
-    value: number; // Tamaño máximo permitido en bytes
+    value: number | FileSize; // Tamaño máximo permitido en bytes
     message?: string;
 };
 
@@ -201,7 +203,6 @@ export type ValidationConfigDateFormat = {
 /**
  * @type {ValidationConfigNumberPositive}
  * @property {ValidationType.NumberPositive} type
- * @property { value } number
  * @property {string} message
 */
 export type ValidationConfigNumberPositive = {
@@ -212,10 +213,30 @@ export type ValidationConfigNumberPositive = {
 /**
  * @type {ValidationConfigNumberNegative}
  * @property {ValidationType.NumberNegative} type
- * @property { value } number
  * @property {string} message
 */
 export type ValidationConfigNumberNegative = {
     type: ValidationType.NumberNegative;
+    message?: string;
+};
+
+/**
+ * @type {ValidationConfigAlpha}
+ * @property {ValidationType.Alpha} type
+ * @property {string} message
+*/
+export type ValidationConfigAlpha = {
+    type: ValidationType.Alpha;
+    message?: string;
+};
+
+
+/**
+ * @type {ValidationConfigAlphaNumeric}
+ * @property {ValidationType.AlphaNumeric} type
+ * @property {string} message
+*/
+export type ValidationConfigAlphaNumeric = {
+    type: ValidationType.AlphaNumeric;
     message?: string;
 };

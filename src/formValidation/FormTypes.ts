@@ -1,4 +1,4 @@
-import { ValidationConfigDateFormat, ValidationConfigDigitsOnly, ValidationConfigEmail, ValidationConfigFileDimensions, ValidationConfigFileSize, ValidationConfigFileType, ValidationConfigMaxLength, ValidationConfigMinLength, ValidationConfigNumberRange, ValidationConfigPattern, ValidationConfigRequired, ValidationConfigUrl,ValidationConfigNumberNegative,ValidationConfigNumberPositive } from "./Validators";
+import { ValidationConfigDateFormat, ValidationConfigDigitsOnly, ValidationConfigEmail, ValidationConfigFileDimensions, ValidationConfigFileSize, ValidationConfigFileType, ValidationConfigMaxLength, ValidationConfigMinLength, ValidationConfigNumberRange, ValidationConfigPattern, ValidationConfigRequired, ValidationConfigUrl,ValidationConfigNumberNegative,ValidationConfigNumberPositive, ValidationConfigAlpha, ValidationConfigAlphaNumeric } from "./Validators";
 
 /**
  * @type 
@@ -13,7 +13,7 @@ export type SetState<T> = (value: T | ((prevState: T) => T)) => void;
 
 /**
  * 
- * @typedef {ValidationConfigRequired | ValidationConfigMinLength | ValidationConfigMaxLength | ValidationConfigDigitsOnly | ValidationConfigNumberRange | ValidationConfigEmail     | ValidationConfigUrl | ValidationConfigFileSize | ValidationConfigFileType | ValidationConfigFileDimensions | ValidationConfigPattern | ValidationConfigDateFormat} ValidationConfig
+ * @typedef {ValidationConfigRequired | ValidationConfigMinLength | ValidationConfigMaxLength | ValidationConfigDigitsOnly | ValidationConfigNumberRange | ValidationConfigEmail     | ValidationConfigUrl | ValidationConfigFileSize | ValidationConfigFileType | ValidationConfigFileDimensions | ValidationConfigPattern | ValidationConfigDateFormat   | ValidationConfigNumberPositive | ValidationConfigNumberNegative | ValidationConfigAlpha | ValidationConfigAlphaNumeric} ValidationConfig
  * @description Configuración de validación que puede ser de diferentes tipos.
  */
 export type ValidationsConfig =
@@ -30,7 +30,9 @@ export type ValidationsConfig =
     | ValidationConfigPattern
     | ValidationConfigDateFormat
     | ValidationConfigNumberPositive
-    | ValidationConfigNumberNegative;
+    | ValidationConfigNumberNegative
+    | ValidationConfigAlpha
+    | ValidationConfigAlphaNumeric;
 
 /**
  * @template T

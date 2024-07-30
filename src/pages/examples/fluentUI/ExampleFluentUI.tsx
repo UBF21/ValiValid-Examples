@@ -40,10 +40,10 @@ const ExampleFluentUI = () => {
             field: "yearsOld",
             validations: [
                 { type: ValidationType.Required },
-                {type: ValidationType.NumberPositive}
+                { type: ValidationType.NumberNegative }
             ],
             isNumber: true,
-            isDecimal:true
+            isDecimal: true
         },
         // {
         //     field: "sex",
@@ -65,12 +65,12 @@ const ExampleFluentUI = () => {
                 { type: ValidationType.Url },
                 {
                     type: ValidationType.Pattern, message: 'Debe ser mayor a 14 caracteres',
-                    value: (value:any) => value.length >= 14
+                    value: (value: any) => value.length >= 14
                 },
                 {
                     type: ValidationType.Pattern,
                     message: 'Debe tener -',
-                    value: (value:any) => /-/.test(value)
+                    value: (value: any) => /-/.test(value)
                 }
             ]
         },
@@ -333,7 +333,7 @@ const ExampleFluentUI = () => {
                                             setFileImageDimensions(URL.createObjectURL(file));
                                         }
                                     }} />
-                                    <Image 
+                                    <Image
                                         src={fileImageDimensions || '/img/empty.jpg'}
                                         style={{ width: '150px', height: '150px', marginBottom: '8px' }}
                                         fit='cover'
