@@ -8,6 +8,7 @@ import { ComboBoxComponent } from './components/ComboBox';
 
 import { personsInitializers } from './interfaces/Initializers';
 import { DatePicker } from '@fluentui/react-datepicker-compat';
+import { Data } from '../../../data/Data';
 
 const ExampleFluentUI = () => {
 
@@ -238,7 +239,7 @@ const ExampleFluentUI = () => {
                                     validationState={!formErrors ? "none" : formErrors.cv ? "error" : "success"}
                                     validationMessage={!formErrors ? "none" : formErrors.cv ? formErrors.cv : "Correcto."}
                                 >
-                                    <ComboBoxComponent />
+                                    <ComboBoxComponent data={Data.getMascotas} />
                                 </Field>
                             </div>
                             <div className="col-12">

@@ -194,6 +194,7 @@ export class FormManager<T> {
                 return rule.message;
             }
         }
+
         return null;
     }
 

@@ -6,33 +6,33 @@ import {
     useId,
 } from "@fluentui/react-components";
 import type { ComboboxProps } from "@fluentui/react-components";
-import { text } from 'stream/consumers';
+import { IOptionsComboBox } from '../interfaces/IOptionsComboBox';
+import { ComboBox } from '../../../../interfaces/ComboBox';
 
-
-interface ComboBox {
-    text: string;
-    value: string;
-}
-
-const ComboBoxComponent = () => {
+const ComboBoxComponent = ({ data }: IOptionsComboBox) => {
 
     const comboId = useId("com dbo-default");
-    const options: ComboBox[] = [
-        { text: "Cat", value: crypto.randomUUID() },
-        { text: "Dog", value: crypto.randomUUID() },
-        { text: "Chicken", value: crypto.randomUUID() },
-        { text: "Cow", value: crypto.randomUUID() },
-        { text: "Fish", value: crypto.randomUUID() }
-    ];
-    const [matchingOptions, setMatchingOptions] = useState(options);
+    const [options, setOptions] = useState<ComboBox[]>([]);
+
+    const getData = async (value: string) => {
+        try {
+            const items = await data(value);
+            setMatchingOptions(items);
+        } catch (error) {
+            console.error("Error fetching filtered data:", error);
+        }
+    };
+
+
+    const [matchingOptions, setMatchingOptions] = useState<ComboBox[]>([]);
     const [customSearch, setCustomSearch] = useState<ComboBox>({ text: "", value: "" });
 
     const onChange: ComboboxProps["onChange"] = (event) => {
         const value = event.target.value.trim();
-        const matches = options.filter( (option) => option.text.toLowerCase().indexOf(value.toLowerCase().trim()) === 0 );
-        setMatchingOptions(matches);
-        if (value.length && matches.length < 1) {
-            setCustomSearch(matches[0]);
+        getData(value);
+        setMatchingOptions(options);
+        if (value.length && options.length < 1) {
+            setCustomSearch(options[0]);
         } else {
             setCustomSearch({ text: value, value: "" });
         }
@@ -45,7 +45,23 @@ const ComboBoxComponent = () => {
         } else {
             setCustomSearch({ text: data.optionText!, value: data.optionValue! });
         }
+
+        console.log(data);
     };
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const initialData = await data("");
+                setOptions(initialData);
+                setMatchingOptions(initialData);
+            } catch (error) {
+                console.error("Error fetching initial data:", error);
+            }
+        };
+
+        fetchData();
+    }, [data]);
 
 
     return (
@@ -58,13 +74,13 @@ const ComboBoxComponent = () => {
                 style={{ width: '100%' }}
                 onOptionSelect={onOptionSelect}
             >
-                {customSearch ? (
+                {customSearch && !matchingOptions.length ? (
                     <Option key={crypto.randomUUID()} text={customSearch.text} value={customSearch.value}>
                         Search for "{customSearch.text}"
                     </Option>
                 ) : null}
                 {matchingOptions.map((option) => (
-                    <Option key={option.value} text={option.text} value={option.value}>{option.text}</Option>
+                    <Option key={crypto.randomUUID()} text={option.text} value={option.value}>{option.text}</Option>
                 ))}
             </Combobox>
         </div>
