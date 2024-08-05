@@ -17,14 +17,14 @@ export class FormManager<T> {
         builderValidations.map((fieldValidation: FieldValidationConfig<T>) => this.addValidation(fieldValidation));
     }
 
-    addRule(field: keyof T, message: string, validate: (value: any) => boolean) {
+    private addRule(field: keyof T, message: string, validate: (value: any) => boolean) {
         if (!this._rules.has(field)) {
             this._rules.set(field, []);
         }
         this._rules.get(field)!.push({ field, message, validate });
     }
 
-    addValidation(fieldValidationConfig: FieldValidationConfig<T>): this {
+    private addValidation(fieldValidationConfig: FieldValidationConfig<T>): this {
 
         this._AllfieldValidationConfig.push(fieldValidationConfig);
 
@@ -197,6 +197,25 @@ export class FormManager<T> {
         return null;
     }
 
+    private getFieldValue(name: keyof T, value: any): any {
+
+        const fieldValidation: FieldValidationConfig<T> = this._AllfieldValidationConfig.find(item => item.field === name)!;
+        const { field, validations, isNumber, isDecimal } = fieldValidation;
+
+        if ('isNumber' in fieldValidation && isNumber && value === '0') {
+            return '';
+        }
+        else if ('isNumber' in fieldValidation && isNumber && isDecimal) {
+            console.log("Hola Decimal");
+            return Number(value);
+        }
+        else if ('isNumber' in fieldValidation && isNumber) {
+            return Number(value.toString().replace(EXPRESSION_REGULAR_ONLY_NUMBERS, ''));
+        }
+
+        return value;
+    }
+
     handleChange(
         name: keyof T,
         value: any,
@@ -204,22 +223,10 @@ export class FormManager<T> {
         setErrors: SetState<FormErrors<T>>
     ): void {
 
-        const fieldValidation: FieldValidationConfig<T> = this._AllfieldValidationConfig.find(item => item.field === name)!;
-        const { field, validations, isNumber, isDecimal } = fieldValidation;
+        const fieldValue = this.getFieldValue(name, value);
 
-        if ('isNumber' in fieldValidation && isNumber && value === '0') {
-            value = '';
-        }
-        else if ('isNumber' in fieldValidation && isNumber && isDecimal) {
-            console.log("Hola Decimal");
-            value = Number(value);
-        }
-        else if ('isNumber' in fieldValidation && isNumber) {
-            value = Number(value.toString().replace(EXPRESSION_REGULAR_ONLY_NUMBERS, ''));
-        }
-
-        setForm((prevForm) => ({ ...prevForm, [name]: value }));
-        const fieldError = this.validateField(name, value);
+        setForm((prevForm) => ({ ...prevForm, [name]: fieldValue }));
+        const fieldError = this.validateField(name, fieldValue);
 
         setErrors((prevErrors: FormErrors<T>) => {
             const errors = { ...prevErrors, [name]: fieldError };
